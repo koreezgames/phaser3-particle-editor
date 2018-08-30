@@ -7,12 +7,18 @@
     "@material-ui/core": "latest",
     "@types/react": "*",
     "@types/react-dom": "*",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
+    "mobx": "^5.1.0",
+    "mobx-react": "^5.2.5",
+    "phaser": "^3.11.0",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts-ts": "latest"
   },
   "devDependencies": {
     "@types/jest": "*",
+    "@types/lodash": "^4.14.116",
     "@types/node": "*",
     "typescript": "latest"
   },

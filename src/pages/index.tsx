@@ -1,14 +1,10 @@
-import * as React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import CreateCanvasModal from '../components/CreateCanvasModal';
+import { EditorStore } from '../stores/editorStore';
 import withRoot from '../withRoot';
 
 const styles = (theme: Theme) =>
@@ -19,52 +15,17 @@ const styles = (theme: Theme) =>
     },
   });
 
-type State = {
-  open: boolean;
-};
+interface EditorStoreProp {
+  editorStore: EditorStore;
+}
 
-class Index extends React.Component<WithStyles<typeof styles>, State> {
-  state = {
-    open: false,
-  };
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
-
-  handleClick = () => {
-    this.setState({
-      open: true,
-    });
-  };
-
+@inject('editorStore')
+@observer
+class Index extends React.Component<WithStyles<typeof styles> & EditorStoreProp> {
   render() {
-    return (
-      <div className={this.props.classes.root}>
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle>Super Secret Password</DialogTitle>
-          <DialogContent>
-            <DialogContentText>1-2-3-4-5</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={this.handleClose}>
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Typography variant="display1" gutterBottom>
-          Material-UI
-        </Typography>
-        <Typography variant="subheading" gutterBottom>
-          example project
-        </Typography>
-        <Button variant="raised" color="secondary" onClick={this.handleClick}>
-          Super Secret Password
-        </Button>
-      </div>
-    );
+    const { editorStore } = this.props;
+    const { config } = editorStore;
+    return !config ? <CreateCanvasModal /> : null;
   }
 }
 
