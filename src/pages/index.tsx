@@ -4,7 +4,7 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import CreateCanvasModal from '../components/CreateCanvasModal';
-import { EditorStore } from '../stores/editorStore';
+import { EditorStoreProp } from '../stores/editorStore';
 import withRoot from '../withRoot';
 
 const styles = (theme: Theme) =>
@@ -15,16 +15,12 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface EditorStoreProp {
-  editorStore: EditorStore;
-}
-
 @inject('editorStore')
 @observer
 class Index extends React.Component<WithStyles<typeof styles> & EditorStoreProp> {
+
   render() {
-    const { editorStore } = this.props;
-    const { config } = editorStore;
+    const { config } = this.props.editorStore!;
     return !config ? <CreateCanvasModal /> : null;
   }
 }

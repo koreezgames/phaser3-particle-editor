@@ -3,8 +3,16 @@ import {
   DialogTitle, TextField, Grid
 } from '@material-ui/core';
 import * as React from 'react';
+import { inject, observer } from 'mobx-react';
+import { EditorStoreProp } from '../../stores/editorStore';
 
-class CreateCanvasModal extends React.Component {
+@inject('editorStore')
+@observer
+class CreateCanvasModal extends React.Component<EditorStoreProp> {
+  constructor(props: EditorStoreProp, context: any) {
+    super(props, context);
+  }
+
   render() {
     return (
       <Dialog
@@ -51,7 +59,7 @@ class CreateCanvasModal extends React.Component {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" color="primary" onClick={this.props.editorStore!.setConfig}>
             Primary
           </Button>
         </DialogActions>
