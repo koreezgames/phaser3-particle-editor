@@ -1,4 +1,3 @@
-
 // const zoneEdgeSources = [
 //   {
 //     name: 'Rectangle',
@@ -27,16 +26,16 @@ const zoneEdgeSources = [
       { title: 'x', defaultValue: 0 },
       { title: 'y', defaultValue: 0 },
       { title: 'width', defaultValue: 0 },
-      { title: 'height', defaultValue: 0 }
-    ]
+      { title: 'height', defaultValue: 0 },
+    ],
   },
   {
     name: 'Circle',
     keyValue: [
       { title: 'x', defaultValue: 0 },
       { title: 'y', defaultValue: 0 },
-      { title: 'radius', defaultValue: 0 }
-    ]
+      { title: 'radius', defaultValue: 0 },
+    ],
   },
   {
     name: 'Ellipse',
@@ -44,8 +43,8 @@ const zoneEdgeSources = [
       { title: 'x', defaultValue: 0 },
       { title: 'y', defaultValue: 0 },
       { title: 'width', defaultValue: 0 },
-      { title: 'height', defaultValue: 0 }
-    ]
+      { title: 'height', defaultValue: 0 },
+    ],
   },
   {
     name: 'Line',
@@ -53,8 +52,8 @@ const zoneEdgeSources = [
       { title: 'x1', defaultValue: 0 },
       { title: 'y1', defaultValue: 0 },
       { title: 'x2', defaultValue: 0 },
-      { title: 'y2', defaultValue: 0 }
-    ]
+      { title: 'y2', defaultValue: 0 },
+    ],
   },
   {
     name: 'Triangle',
@@ -64,9 +63,9 @@ const zoneEdgeSources = [
       { title: 'x2', defaultValue: 0 },
       { title: 'y2', defaultValue: 0 },
       { title: 'x3', defaultValue: 0 },
-      { title: 'y3', defaultValue: 0 }
-    ]
-  }
+      { title: 'y3', defaultValue: 0 },
+    ],
+  },
 ];
 
 export default zoneEdgeSources;

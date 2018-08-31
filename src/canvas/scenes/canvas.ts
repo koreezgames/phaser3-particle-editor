@@ -24,7 +24,7 @@ export default class Canvas extends Phaser.Scene {
       clicked = false;
     });
 
-    this.input.on('pointermove', ({ x, y }: { x: number, y: number }) => {
+    this.input.on('pointermove', ({ x, y }: { x: number; y: number }) => {
       if (clicked) {
         // emitterStore.setEmitterPosition(x, y);
       }

@@ -14,7 +14,7 @@ const blendModes = [
   { text: 'HUE', value: 13 },
   { text: 'SATURATION', value: 14 },
   { text: 'COLOR', value: 15 },
-  { text: 'LUMINOSITY', value: 16 }
+  { text: 'LUMINOSITY', value: 16 },
 ];
 
 export default blendModes;
