@@ -2,8 +2,11 @@
 // import JSZip from 'jszip';
 import { emitterConfig as emitterInitialConfig } from './constants';
 
-const validateForm = ({ name, height, width }: { name: any, height: any, width: any },
-                      onSuccess: () => {}, onFail: (field: string) => {}) => {
+const validateForm = (
+  { name, height, width }: { name: any; height: any; width: any },
+  onSuccess: () => {},
+  onFail: (field: string) => {},
+) => {
   let isValid = true;
 
   if (!isValidName(name.value)) {
@@ -39,12 +42,16 @@ const getEmitterConfig = (config: any) => {
   for (const key in config) {
     if (config.hasOwnProperty(key)) {
       const value = config[key];
-      if (value === undefined) { continue; }
+      if (value === undefined) {
+        continue;
+      }
 
       if (value.hasOwnProperty('source')) {
         newConfig[key] = {
           ...value,
-          source: new Phaser.Geom[value.shapeType](...Object.values(value.source))
+          source: new Phaser.Geom[value.shapeType](
+            ...Object.values(value.source),
+          ),
         };
       } else {
         newConfig[key] =
@@ -53,13 +60,14 @@ const getEmitterConfig = (config: any) => {
             : value;
       }
     }
-
   }
   return newConfig;
 };
 
 const getNewEmitterID = (emitters: any) => {
-  const IDs = emitters.map((emitter: any) => emitter.id).sort((a: any, b: any) => a - b);
+  const IDs = emitters
+    .map((emitter: any) => emitter.id)
+    .sort((a: any, b: any) => a - b);
   let emitterID = null;
 
   if (IDs[0] !== 1) {
@@ -124,6 +132,15 @@ const saveZip = () => {
 };
 
 export {
-  isPlainObject, hasBoth, deepCopy, hasKey, getPickerColor, getEmitterIndex,
-  getEmitterConfig, getNewEmitterID, saveZip, initialConfig, validateForm
+  isPlainObject,
+  hasBoth,
+  deepCopy,
+  hasKey,
+  getPickerColor,
+  getEmitterIndex,
+  getEmitterConfig,
+  getNewEmitterID,
+  saveZip,
+  initialConfig,
+  validateForm,
 };

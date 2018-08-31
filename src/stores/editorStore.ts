@@ -8,24 +8,24 @@ export class EditorStore {
   @observable
   name = {
     value: 'MyProject',
-    error: false
+    error: false,
   };
 
   @observable
   height = {
     value: 600,
-    error: false
+    error: false,
   };
 
   @observable
   width = {
     value: 800,
-    error: false
+    error: false,
   };
 
   @action.bound
   setStatus(status: boolean) {
-    validateForm(this, () => this.created = status, this.setError.bind(this));
+    validateForm(this, () => (this.created = status), this.setError.bind(this));
   }
 
   @action.bound

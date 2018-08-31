@@ -31,7 +31,7 @@ const easing = [
   { text: 'Circ.easeInOut', value: 'Circ.easeInOut' },
   { text: 'Elastic.easeInOut', value: 'Elastic.easeInOut' },
   { text: 'Back.easeInOut', value: 'Back.easeInOut' },
-  { text: 'Bounce.easeInOut', value: 'Bounce.easeInOut' }
+  { text: 'Bounce.easeInOut', value: 'Bounce.easeInOut' },
 ];
 
 export default easing;

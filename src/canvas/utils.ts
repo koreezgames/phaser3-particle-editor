@@ -5,7 +5,7 @@ const createEmitter = (scene: CanvasScene, config: any, frame?: string) => {
   let emitterConfig = config ? getEmitterConfig(config) : initialConfig;
   scene.particle.createEmitter({
     frames: frame,
-    ...emitterConfig
+    ...emitterConfig,
   });
 };
 
@@ -14,8 +14,15 @@ const removeEmitter = (scene: CanvasScene, index: number) => {
   emitters.splice(index, 1);
 };
 
-const changeEmitter = (emitter: Phaser.GameObjects.Particles.ParticleEmitter, config: any) => {
-  const newConfig: { deathZone?: any, emitZone?: any, bounds?: any } = getEmitterConfig(config);
+const changeEmitter = (
+  emitter: Phaser.GameObjects.Particles.ParticleEmitter,
+  config: any,
+) => {
+  const newConfig: {
+    deathZone?: any;
+    emitZone?: any;
+    bounds?: any;
+  } = getEmitterConfig(config);
   emitter.fromJSON(newConfig);
 
   const { deathZone, emitZone, bounds } = newConfig;
@@ -33,7 +40,13 @@ const changeEmitter = (emitter: Phaser.GameObjects.Particles.ParticleEmitter, co
   console.log(JSON.stringify(newConfig));
 };
 
-const drawDebugZoneGraphic = (zone: any, scene: Phaser.Scene, color: number, type?: string, config?: any) => {
+const drawDebugZoneGraphic = (
+  zone: any,
+  scene: Phaser.Scene,
+  color: number,
+  type?: string,
+  config?: any,
+) => {
   const { shapeType, source } = zone;
   const shapeTypeGraphic = shapeType === 'Rectangle' ? 'Rect' : shapeType;
   const _source = deepCopy(source);
@@ -58,4 +71,10 @@ const clearZoneGraphic = (graphic: Phaser.GameObjects.Graphics) => {
   }
 };
 
-export { createEmitter, removeEmitter, changeEmitter, drawDebugZoneGraphic, clearZoneGraphic };
+export {
+  createEmitter,
+  removeEmitter,
+  changeEmitter,
+  drawDebugZoneGraphic,
+  clearZoneGraphic,
+};

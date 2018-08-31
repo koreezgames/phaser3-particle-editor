@@ -1,10 +1,18 @@
 import * as _ from 'lodash';
 import { action, computed, observable } from 'mobx';
 import {
-  DEFAULT_DEBUG_MODES, emitterConfig as emitterInitialConfig,
-  EMITTER_NAME_PREFIX, zoneEdgeSources
+  DEFAULT_DEBUG_MODES,
+  emitterConfig as emitterInitialConfig,
+  EMITTER_NAME_PREFIX,
+  zoneEdgeSources,
 } from '../constants';
-import { deepCopy, getNewEmitterID, hasBoth, hasKey, isPlainObject } from '../utils';
+import {
+  deepCopy,
+  getNewEmitterID,
+  hasBoth,
+  hasKey,
+  isPlainObject,
+} from '../utils';
 
 export class EmitterStore {
   @observable
@@ -13,8 +21,8 @@ export class EmitterStore {
       id: 1,
       name: `${EMITTER_NAME_PREFIX}1`,
       config: emitterInitialConfig,
-      debugModes: { ...DEFAULT_DEBUG_MODES }
-    }
+      debugModes: { ...DEFAULT_DEBUG_MODES },
+    },
   ];
 
   @action.bound
@@ -122,7 +130,7 @@ export class EmitterStore {
         ...newConfig,
         shapeType: 'Rectangle',
         source: this.getObjectInputProps('Rectangle'),
-        type: type
+        type: type,
       };
       if (type === 'edge') {
         newConfig = {
@@ -130,7 +138,7 @@ export class EmitterStore {
           quantity: 10,
           stepRate: 0,
           yoyo: false,
-          seamless: false
+          seamless: false,
         };
       } else {
         ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
@@ -155,14 +163,14 @@ export class EmitterStore {
   }
 
   getObjectInputProps(shapeType: string) {
-    const shape = zoneEdgeSources
-      .find(source => source.name === shapeType);
+    const shape = zoneEdgeSources.find(source => source.name === shapeType);
 
-    return shape ? shape
-      .keyValue.reduce((acc, { title, defaultValue }) => {
-        acc[title] = defaultValue;
-        return acc;
-      }) : null;
+    return shape
+      ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
+          acc[title] = defaultValue;
+          return acc;
+        })
+      : null;
   }
 
   // Picker

@@ -8,11 +8,12 @@ import emitterStore from './stores/emitterStore';
 
 const stores = {
   editorStore,
-  emitterStore
+  emitterStore,
 };
 
 ReactDOM.render(
   <Provider {...stores}>
     <Index />
   </Provider>,
-  document.querySelector('#root'));
+  document.querySelector('#root'),
+);
