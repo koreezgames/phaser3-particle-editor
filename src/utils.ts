@@ -89,9 +89,6 @@ const getNewEmitterID = (emitters: any) => {
 
 const initialConfig = getEmitterConfig(emitterInitialConfig);
 
-const isPlainObject = (object: {}) =>
-  typeof object === 'object' && !Array.isArray(object) && object !== null;
-
 const hasKey = (object: {}, key: string) => object.hasOwnProperty(key);
 
 const hasBoth = (object: {}, key1: string, key2: string) =>
@@ -108,7 +105,7 @@ const getPickerColor = (color: number) => {
 
 const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   const maxLength = Math.max(newEmitters.length, prevEmitters.length);
-  let index = null;
+  let index = 0;
   for (let i = 0; i < maxLength; i++) {
     if (JSON.stringify(newEmitters[i]) !== JSON.stringify(prevEmitters[i])) {
       index = i;
@@ -132,7 +129,6 @@ const saveZip = () => {
 };
 
 export {
-  isPlainObject,
   hasBoth,
   deepCopy,
   hasKey,

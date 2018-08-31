@@ -14,10 +14,6 @@ import { EditorStoreProp } from '../../stores/editorStore';
 @inject('editorStore')
 @observer
 class CreateCanvasModal extends React.Component<EditorStoreProp> {
-  constructor(props: EditorStoreProp, context: any) {
-    super(props, context);
-  }
-
   render() {
     const {
       name,
