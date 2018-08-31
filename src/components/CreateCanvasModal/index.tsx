@@ -1,5 +1,5 @@
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogContentText,
+  Button, Dialog, DialogActions, DialogContent,
   DialogTitle, TextField, Grid
 } from '@material-ui/core';
 import * as React from 'react';
@@ -14,6 +14,7 @@ class CreateCanvasModal extends React.Component<EditorStoreProp> {
   }
 
   render() {
+    const { name, height, width, setStatus, changeConfig, setError } = this.props.editorStore!;
     return (
       <Dialog
         open={true}
@@ -21,46 +22,45 @@ class CreateCanvasModal extends React.Component<EditorStoreProp> {
       >
         <DialogTitle id="create-canvas-title">Create Canvas</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send
-            updates occasionally.
-          </DialogContentText>
           <Grid container spacing={16}>
             <Grid item xs={12}>
               <TextField
-                autoFocus
-                margin="dense"
-                id="name"
+                value={name.value}
+                error={name.error}
                 label="Name"
                 type="text"
                 fullWidth
+                onFocus={() => { setError('name', false); }}
+                onChange={(event) => changeConfig('name', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Name"
-                type="text"
+                value={height.value}
+                error={height.error}
+                label="Height"
+                type="number"
                 fullWidth
+                onFocus={() => { setError('height', false); }}
+                onChange={(event) => changeConfig('height', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Name"
-                type="text"
+                value={width.value}
+                error={width.error}
+                label="Width"
+                type="number"
                 fullWidth
+                onFocus={() => { setError('width', false); }}
+                onChange={(event) => changeConfig('width', event.target.value)}
               />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" color="primary" onClick={this.props.editorStore!.setConfig}>
-            Primary
+          <Button size="small" variant="contained" color="primary" onClick={() => setStatus(true)}>
+            Create
           </Button>
         </DialogActions>
       </Dialog>

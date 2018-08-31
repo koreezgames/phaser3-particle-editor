@@ -1,15 +1,41 @@
 import { action, observable } from 'mobx';
+import { validateForm } from '../utils';
 
 export class EditorStore {
   @observable
-  public config = null;
+  created: boolean;
 
   @observable
-  phaserParentMountStatus = false;
+  name = {
+    value: 'MyProject',
+    error: false
+  };
+
+  @observable
+  height = {
+    value: 600,
+    error: false
+  };
+
+  @observable
+  width = {
+    value: 800,
+    error: false
+  };
 
   @action.bound
-  public setConfig(config: any) {
-    this.config = config;
+  setStatus(status: boolean) {
+    validateForm(this, () => this.created = status, this.setError.bind(this));
+  }
+
+  @action.bound
+  changeConfig(configName: string, value: string) {
+    this[configName].value = value;
+  }
+
+  @action.bound
+  setError(configName: string, errorStatus: boolean = true) {
+    this[configName].error = errorStatus;
   }
 }
 

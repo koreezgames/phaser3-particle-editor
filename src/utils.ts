@@ -2,6 +2,38 @@
 // import JSZip from 'jszip';
 import { emitterConfig as emitterInitialConfig } from './constants';
 
+const validateForm = ({ name, height, width }: { name: any, height: any, width: any },
+                      onSuccess: () => {}, onFail: (field: string) => {}) => {
+  let isValid = true;
+
+  if (!isValidName(name.value)) {
+    onFail('name');
+    isValid = false;
+  }
+
+  if (!isValidSize(Number(height.value))) {
+    onFail('height');
+    isValid = false;
+  }
+
+  if (!isValidSize(Number(width.value))) {
+    onFail('width');
+    isValid = false;
+  }
+
+  if (isValid) {
+    onSuccess();
+  }
+};
+
+const isValidName = (name: string) => {
+  return name !== '';
+};
+
+const isValidSize = (value: number) => {
+  return value > 0;
+};
+
 const getEmitterConfig = (config: any) => {
   const newConfig = {};
   for (const key in config) {
@@ -93,5 +125,5 @@ const saveZip = () => {
 
 export {
   isPlainObject, hasBoth, deepCopy, hasKey, getPickerColor, getEmitterIndex,
-  getEmitterConfig, getNewEmitterID, saveZip, initialConfig
+  getEmitterConfig, getNewEmitterID, saveZip, initialConfig, validateForm
 };

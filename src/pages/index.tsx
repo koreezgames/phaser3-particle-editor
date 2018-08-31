@@ -20,8 +20,8 @@ const styles = (theme: Theme) =>
 class Index extends React.Component<WithStyles<typeof styles> & EditorStoreProp> {
 
   render() {
-    const { config } = this.props.editorStore!;
-    return !config ? <CreateCanvasModal /> : null;
+    const { created } = this.props.editorStore!;
+    return !created ? <CreateCanvasModal /> : 'Hello';
   }
 }
 
