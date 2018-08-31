@@ -35,7 +35,7 @@ const emitterConfig = {
   bounds: undefined,
   tint: [0xffffff],
   emitZone: undefined,
-  deathZone: undefined
+  deathZone: undefined,
 };
 
 export default emitterConfig;

@@ -17,8 +17,9 @@ const styles = (theme: Theme) =>
 
 @inject('editorStore')
 @observer
-class Index extends React.Component<WithStyles<typeof styles> & EditorStoreProp> {
-
+class Index extends React.Component<
+  WithStyles<typeof styles> & EditorStoreProp
+> {
   render() {
     const { created } = this.props.editorStore!;
     return !created ? <CreateCanvasModal /> : 'Hello';
