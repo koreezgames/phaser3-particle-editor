@@ -5,6 +5,7 @@ import { Grid, WithStyles, withStyles } from '@material-ui/core';
 import initCanvas from '../../canvas';
 import EmitterConfig from '../EmitterConfig';
 import { EDITOR_STORE } from '../../stores';
+import AppBar from '../AppBar';
 
 const styles = {
   darkGrid: {
@@ -23,12 +24,11 @@ class Editor extends React.Component<
   }
 
   render() {
-    const { editorStore, classes } = this.props;
-    const { name } = editorStore!;
+    const { classes } = this.props;
     return (
       <Grid container spacing={16}>
         <Grid item xs={12}>
-          {name.value}
+          <AppBar />
         </Grid>
         <Grid item xs={2} className={classes.darkGrid}>
           left
