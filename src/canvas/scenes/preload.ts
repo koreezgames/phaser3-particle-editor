@@ -6,7 +6,7 @@ export default class Preload extends Phaser.Scene {
     super('Preload');
   }
   preload() {
-    this.load.atlas('shape', shapeIMAGE, JSON.stringify(shapesJSON));
+    this.load.atlas('shape', shapeIMAGE, shapesJSON);
   }
   create() {
     this.scene.start('Canvas');

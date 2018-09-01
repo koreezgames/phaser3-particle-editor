@@ -6,6 +6,7 @@ import initCanvas from '../../canvas';
 import EmitterConfig from '../EmitterConfig';
 import { EDITOR_STORE } from '../../stores';
 import AppBar from '../AppBar';
+import EmitterList from '../EmitterList';
 
 const styles = {
   darkGrid: {
@@ -31,7 +32,7 @@ class Editor extends React.Component<
           <AppBar />
         </Grid>
         <Grid item xs={2} className={classes.darkGrid}>
-          left
+          <EmitterList />
         </Grid>
         <Grid id="phaser-canvas" item xs={7} />
         <Grid item xs={3} className={classes.darkGrid}>
