@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _set from 'lodash/set';
 import { action, computed, observable } from 'mobx';
 import {
   DEFAULT_DEBUG_MODES,
@@ -6,15 +6,13 @@ import {
   EMITTER_NAME_PREFIX,
   zoneEdgeSources,
 } from '../constants';
-import {
-  deepCopy,
-  getNewEmitterID,
-  hasBoth,
-  hasKey,
-  isPlainObject,
-} from '../utils';
+import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
+import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
+  constructor() {
+    this.lastEmitters = this.emitters;
+  }
   @observable
   emitters = [
     {
@@ -35,30 +33,32 @@ export class EmitterStore {
     return this.emitters[this.emitterIndex];
   }
 
+  @computed
+  get currentEmitterConfig() {
+    return this.currentEmitter.config;
+  }
+
+  @observable
+  lastEmitters: any[];
+
+  @action.bound
+  setLastEmitters(emitters: any) {
+    this.lastEmitters = emitters;
+  }
+
   @observable
   emitterIndex = 0;
   @action.bound
   changeEmitterConfig(configName: string, value: any) {
-    // if (deepConfig) {
-    //   const pathChain = configName.split(">");
-    //   const configDeepName = pathChain[pathChain.length - 1];
-    //   const deepConfigRef = pathChain.reduce((acc, value, index, array) => {
-    //     return index === array.length - 1 ? acc : acc[value];
-    //   }, this.currentEmitter.config);
-    //   deepConfigRef[configDeepName] = value;
-    // } else {
-    //   this.currentEmitter.config[configName] = value;
-    // }
-    _.set(this.currentEmitter, configName.split('>'), value);
+    _set(this.currentEmitter.config, configName.split('>'), value);
   }
 
-  // Select
   @action.bound
-  changeSelectType(configName: string) {
+  changePropertyType(configName: string) {
     const currentValue = this.currentEmitter.config[configName];
     const initialValue = emitterInitialConfig[configName];
-    const isObjectInitValue = isPlainObject(initialValue);
-    const isObjectCurrentValue = isPlainObject(currentValue);
+    const isObjectInitValue = _isPlainObject(initialValue);
+    const isObjectCurrentValue = _isPlainObject(currentValue);
 
     let newConfig;
     if (isObjectCurrentValue) {
@@ -268,6 +268,10 @@ export class EmitterStore {
   setEmitters(emitters: any) {
     this.emitters = emitters;
   }
+}
+
+export interface EmitterStoreProp {
+  emitterStore?: EmitterStore;
 }
 
 export default new EmitterStore();
