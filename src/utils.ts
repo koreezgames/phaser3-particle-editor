@@ -1,6 +1,6 @@
 // import { saveAs } from 'file-saver/FileSaver';
 // import JSZip from 'jszip';
-import { emitterConfig as emitterInitialConfig } from './constants';
+import { emitterConfig as emitterInitialConfig, zoneEdgeSources } from './constants';
 
 const validateForm = (
   { name, height, width }: { name: any; height: any; width: any },
@@ -128,6 +128,10 @@ const saveZip = () => {
   // );
 };
 
+const getZoneShapeProps = (type: string) => {
+  return zoneEdgeSources.find(({ shapeType }) => shapeType === type);
+};
+
 export {
   hasBoth,
   deepCopy,
@@ -139,4 +143,5 @@ export {
   saveZip,
   initialConfig,
   validateForm,
+  getZoneShapeProps
 };

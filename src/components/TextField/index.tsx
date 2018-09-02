@@ -34,7 +34,7 @@ class TextField extends Component<Props & EmitterStoreProp> {
     return (
       <MaterialTextField
         error={textFieldError}
-        defaultValue={value}
+        value={value}
         label={textFieldLabel}
         type={type}
         onChange={event => {

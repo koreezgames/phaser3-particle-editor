@@ -3,8 +3,7 @@ import { action, computed, observable } from 'mobx';
 import {
   DEFAULT_DEBUG_MODES,
   emitterConfig as emitterInitialConfig,
-  EMITTER_NAME_PREFIX,
-  zoneEdgeSources,
+  EMITTER_NAME_PREFIX
 } from '../constants';
 import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
@@ -119,59 +118,59 @@ export class EmitterStore {
     this.changeEmitterConfig(configName, newConfig);
   }
 
-  // Zone
-  @action.bound
-  changeZoneType(configName: string, checked: boolean, type: string) {
-    const currentValue = this.currentEmitter.config[configName];
-    let newConfig = currentValue ? { ...currentValue } : {};
+  // // Zone
+  // @action.bound
+  // changeZoneType(configName: string, checked: boolean, type: string) {
+  //   const currentValue = this.currentEmitter.config[configName];
+  //   let newConfig = currentValue ? { ...currentValue } : {};
+  //
+  //   if (checked) {
+  //     newConfig = {
+  //       ...newConfig,
+  //       shapeType: 'Rectangle',
+  //       source: this.getObjectInputProps('Rectangle'),
+  //       type: type,
+  //     };
+  //     if (type === 'edge') {
+  //       newConfig = {
+  //         ...newConfig,
+  //         quantity: 10,
+  //         stepRate: 0,
+  //         yoyo: false,
+  //         seamless: false,
+  //       };
+  //     } else {
+  //       ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
+  //         delete newConfig[key];
+  //       });
+  //     }
+  //   } else {
+  //     newConfig = undefined;
+  //   }
+  //
+  //   this.changeEmitterConfig(configName, newConfig);
+  // }
 
-    if (checked) {
-      newConfig = {
-        ...newConfig,
-        shapeType: 'Rectangle',
-        source: this.getObjectInputProps('Rectangle'),
-        type: type,
-      };
-      if (type === 'edge') {
-        newConfig = {
-          ...newConfig,
-          quantity: 10,
-          stepRate: 0,
-          yoyo: false,
-          seamless: false,
-        };
-      } else {
-        ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
-          delete newConfig[key];
-        });
-      }
-    } else {
-      newConfig = undefined;
-    }
+  // @action.bound
+  // changeZoneSource(configName: string, value: string) {
+  //   const currentValue = this.currentEmitter.config[configName];
+  //   const shapeSource = this.getObjectInputProps(value);
+  //   const newConfig = { ...currentValue };
+  //   newConfig.shapeType = value;
+  //   newConfig.source = shapeSource;
+  //   this.changeEmitterConfig(configName, newConfig);
+  // }
 
-    this.changeEmitterConfig(configName, newConfig);
-  }
-
-  @action.bound
-  changeZoneSource(configName: string, value: string) {
-    const currentValue = this.currentEmitter.config[configName];
-    const shapeSource = this.getObjectInputProps(value);
-    const newConfig = { ...currentValue };
-    newConfig.shapeType = value;
-    newConfig.source = shapeSource;
-    this.changeEmitterConfig(configName, newConfig);
-  }
-
-  getObjectInputProps(shapeType: string) {
-    const shape = zoneEdgeSources.find(source => source.name === shapeType);
-
-    return shape
-      ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
-          acc[title] = defaultValue;
-          return acc;
-        })
-      : null;
-  }
+  // getObjectInputProps(shapeType: string) {
+  //   const shape = zoneEdgeSources.find(source => source.name === shapeType);
+  //
+  //   return shape
+  //     ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
+  //         acc[title] = defaultValue;
+  //         return acc;
+  //       })
+  //     : null;
+  // }
 
   // Picker
   @observable

@@ -6,6 +6,7 @@ import Select from '../Select';
 import { blendModes } from '../../constants';
 import CompositeProperty from '../CompositeProperty';
 import ToggleComplexTextField from '../ToggleComplexTextField';
+import Zone from '../Zone';
 
 class EmitterConfig extends Component {
   render() {
@@ -19,6 +20,7 @@ class EmitterConfig extends Component {
           configName="bounds"
           complex={{ x: 0, y: 0, width: 0, height: 0 }}
         />
+        <Zone configName="emitZone" types={['edge', 'random']}/>
       </FormGroup>
     );
   }
