@@ -21,8 +21,14 @@ export default class Canvas extends Phaser.Scene {
     super('Canvas');
   }
   create() {
+    const { emitters } = emitterStore;
+
     this.particle = this.add.particles('shape');
-    createEmitter(this, null, 'hexagon');
+
+    emitters.forEach(emitter => {
+      createEmitter(this, emitter.config);
+    });
+
     let clicked = false;
 
     this.input.on('pointerdown', () => {
@@ -52,6 +58,16 @@ export default class Canvas extends Phaser.Scene {
 
     if (lastEmitters.length) {
       const index = getEmitterIndex(emitters, lastEmitters);
+
+      console.log(emitters, lastEmitters, index);
+
+      if (index === -1) {
+        emitters.forEach((emitter, i) => {
+          changeEmitter(this.particle.emitters.list[i], emitter.config);
+        });
+        return;
+      }
+
       const config = index < emitters.length && emitters[index].config;
 
       if (emitters.length === lastEmitters.length) {

@@ -5,7 +5,7 @@ import { EmitterStoreProp } from '../../stores/emitterStore';
 import MultipleInput from '../MultipleInput';
 import _isPlainObject from 'lodash/isPlainObject';
 import Switch from '../Switch';
-import TextField from '../TextField';
+import TextField, { textField } from '../TextField';
 import Select from '../Select';
 import { hasBoth, hasKey } from '../../utils';
 import { Grid } from '@material-ui/core';
@@ -64,7 +64,9 @@ class CompositeProperty extends Component<Props & EmitterStoreProp> {
         ) : null}
       </Fragment>
     ) : (
-      <MultipleInput configName={configName} type="TextField" />
+      <MultipleInput configName={configName}>
+        {(params: any) => textField({ ...params, hideLabel: true })}
+      </MultipleInput>
     );
   }
 
@@ -76,14 +78,18 @@ class CompositeProperty extends Component<Props & EmitterStoreProp> {
     const isObject = _isPlainObject(value);
 
     return (
-      <Fragment>
-        <Switch
-          label="Composite"
-          checked={isObject}
-          onChange={() => changePropertyType(configName)}
-        />
-        {this.getBody(isObject, random)}
-      </Fragment>
+      <Grid container>
+        <Grid item xs={12}>
+          <Switch
+            label="Composite"
+            checked={isObject}
+            onChange={() => changePropertyType(configName)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {this.getBody(isObject, random)}
+        </Grid>
+      </Grid>
     );
   }
 }

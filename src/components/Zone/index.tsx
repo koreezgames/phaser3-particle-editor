@@ -8,27 +8,29 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '../Select';
-import TextField from '../TextField';
+// import TextField from '../TextField';
 import { zoneEdgeShapes } from '../../constants';
 import ComplexTextField from '../ComplexTextField';
 
 interface Props {
   configName: string;
   types: [string, string];
+  onEnable?: (zoneValue: any) => any;
+  onTypeChange?: (zoneValue: any, type: string) => any;
 }
 
-const edgeZoneComplexProps = {
-  quantity: 10,
-  stepRate: 0,
-  yoyo: false,
-  seamless: false
-};
+// const edgeZoneComplexProps = {
+//   quantity: 10,
+//   stepRate: 0,
+//   yoyo: false,
+//   seamless: false,
+// };
 
 @inject(EMITTER_STORE)
 @observer
 class Zone extends Component<Props & EmitterStoreProp> {
   getZoneTypeRadioButtons() {
-    const { configName, types, emitterStore } = this.props;
+    const { configName, types, emitterStore, onTypeChange } = this.props;
     const { currentEmitterConfig, changeEmitterConfig } = emitterStore!;
     const zone = currentEmitterConfig[configName];
 
@@ -36,27 +38,33 @@ class Zone extends Component<Props & EmitterStoreProp> {
       <RadioGroup
         value={zone.type}
         onChange={(e, value) => {
-          const zoneValue =  { ...zone, type: value };
-
-          // ?
-          if (value === 'random') {
-            Object.keys(edgeZoneComplexProps).forEach(propName => delete zoneValue[propName]);
-          } else if (value === 'edge') {
-            Object.assign(zoneValue, edgeZoneComplexProps);
-          }
-
+          let zoneValue = { ...zone, type: value };
+          zoneValue = onTypeChange ? onTypeChange(zoneValue, value) : zoneValue;
           changeEmitterConfig(configName, zoneValue);
         }}
       >
-        <FormControlLabel value={types[0]} control={<Radio/>} label={types[0]} />
-        <FormControlLabel value={types[1]} control={<Radio/>} label={types[1]} />
+        <FormControlLabel
+          value={types[0]}
+          control={<Radio />}
+          label={types[0]}
+        />
+        <FormControlLabel
+          value={types[1]}
+          control={<Radio />}
+          label={types[1]}
+        />
       </RadioGroup>
     );
   }
 
   render() {
-    const { configName, types, emitterStore } = this.props;
-    const { currentEmitter, currentEmitterConfig, changeEmitterConfig, changeDebugMode } = emitterStore!;
+    const { configName, types, emitterStore, onEnable } = this.props;
+    const {
+      currentEmitter,
+      currentEmitterConfig,
+      changeEmitterConfig,
+      changeDebugMode,
+    } = emitterStore!;
     const zone = currentEmitterConfig[configName];
 
     return (
@@ -65,18 +73,14 @@ class Zone extends Component<Props & EmitterStoreProp> {
           checked={zone !== undefined}
           label="Enable"
           onChange={event => {
-            const zoneValue = event.target.checked ?
-              { ...getZoneShapeProps('Rectangle'), type: types[0] } : undefined;
-
-            // ?
-            if (zoneValue && zoneValue.type === 'edge') {
-              Object.assign(zoneValue, edgeZoneComplexProps);
-            }
-
+            let zoneValue = event.target.checked
+              ? { ...getZoneShapeProps('Rectangle'), type: types[0] }
+              : undefined;
+            zoneValue = onEnable ? onEnable(zoneValue) : zoneValue;
             changeEmitterConfig(configName, zoneValue);
           }}
         />
-        {zone ?
+        {zone ? (
           <Fragment>
             {this.getZoneTypeRadioButtons()}
             <Switch
@@ -91,24 +95,16 @@ class Zone extends Component<Props & EmitterStoreProp> {
               options={zoneEdgeShapes}
               value={zone.shapeType}
               onChange={event => {
-                const zoneValue = { ...zone, ...getZoneShapeProps(event.target.value) };
+                const zoneValue = {
+                  ...zone,
+                  ...getZoneShapeProps(event.target.value),
+                };
                 changeEmitterConfig(configName, zoneValue);
               }}
             />
             <ComplexTextField configName={`${configName}>source`} />
-
-            {/* ?? */}
-            {zone.type === 'edge' ?
-              <Fragment>
-                <TextField configName={`${configName}>quantity`} label="quantity"/>
-                <TextField configName={`${configName}>stepRate`} label="stepRate"/>
-                <Switch configName={`${configName}>yoyo`} label="yoyo"/>
-                <Switch configName={`${configName}>seamless`} label="seamless"/>
-              </Fragment>
-            : null}
-
           </Fragment>
-        : null}
+        ) : null}
       </Fragment>
     );
   }

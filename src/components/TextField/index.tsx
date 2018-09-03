@@ -35,6 +35,7 @@ class TextField extends Component<Props & EmitterStoreProp> {
       <MaterialTextField
         error={textFieldError}
         value={value}
+        fullWidth
         label={textFieldLabel}
         type={type}
         onChange={event => {
@@ -48,4 +49,9 @@ class TextField extends Component<Props & EmitterStoreProp> {
   }
 }
 
+const textField = (params: any) => {
+  return <TextField {...params} />;
+};
+
+export { textField };
 export default TextField;

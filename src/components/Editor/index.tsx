@@ -12,6 +12,9 @@ const styles = {
   darkGrid: {
     backgroundColor: '#212121',
   },
+  test: {
+    padding: 0,
+  },
 };
 
 @inject(EDITOR_STORE)

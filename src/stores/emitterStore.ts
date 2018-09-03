@@ -3,20 +3,26 @@ import { action, computed, observable } from 'mobx';
 import {
   DEFAULT_DEBUG_MODES,
   emitterConfig as emitterInitialConfig,
-  EMITTER_NAME_PREFIX
+  EMITTER_NAME_PREFIX,
 } from '../constants';
 import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
   constructor() {
-    this.lastEmitters = this.emitters;
+    this.setLastEmitters(this.emitters);
   }
   @observable
   emitters = [
     {
       id: 1,
       name: `${EMITTER_NAME_PREFIX}1`,
+      config: emitterInitialConfig,
+      debugModes: { ...DEFAULT_DEBUG_MODES },
+    },
+    {
+      id: 2,
+      name: `${EMITTER_NAME_PREFIX}2`,
       config: emitterInitialConfig,
       debugModes: { ...DEFAULT_DEBUG_MODES },
     },
@@ -42,14 +48,17 @@ export class EmitterStore {
 
   @action.bound
   setLastEmitters(emitters: any) {
-    this.lastEmitters = emitters;
+    this.lastEmitters = deepCopy(emitters);
   }
 
   @observable
   emitterIndex = 0;
+
   @action.bound
-  changeEmitterConfig(configName: string, value: any) {
-    _set(this.currentEmitter.config, configName.split('>'), value);
+  changeEmitterConfig(configName: string, value: any, index?: number) {
+    const emitter =
+      index !== undefined ? this.emitters[index] : this.currentEmitter;
+    _set(emitter.config, configName.split('>'), value);
   }
 
   @action.bound
@@ -61,7 +70,7 @@ export class EmitterStore {
 
     let newConfig;
     if (isObjectCurrentValue) {
-      newConfig = isObjectInitValue ? 0 : initialValue;
+      newConfig = isObjectInitValue ? [0] : initialValue;
     } else {
       newConfig = isObjectInitValue
         ? initialValue
@@ -193,11 +202,6 @@ export class EmitterStore {
   }
 
   @computed
-  get titles() {
-    return this.emitters.map(({ name }) => name);
-  }
-
-  @computed
   get count() {
     return this.emitters.length;
   }
@@ -218,6 +222,7 @@ export class EmitterStore {
     const debugModes = prevDebugModes
       ? { ...prevDebugModes }
       : { ...DEFAULT_DEBUG_MODES };
+    // this.setLastEmitters(this.emitters);
     this.emitters.push({ id, name, config, debugModes });
     this.setEmitterIndex(this.emitters.length - 1);
   }
@@ -253,11 +258,6 @@ export class EmitterStore {
     //   zipName: 'particle',
     //   jsonFileName: 'emitters'
     // });
-  }
-
-  @action.bound
-  hideEmitter(index: number) {
-    this.emitters[index].config.visible = !this.emitters[index].config.visible;
   }
 
   setEmitterIndex(index: number) {

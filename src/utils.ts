@@ -1,6 +1,9 @@
 // import { saveAs } from 'file-saver/FileSaver';
 // import JSZip from 'jszip';
-import { emitterConfig as emitterInitialConfig, zoneEdgeSources } from './constants';
+import {
+  emitterConfig as emitterInitialConfig,
+  zoneEdgeSources,
+} from './constants';
 
 const validateForm = (
   { name, height, width }: { name: any; height: any; width: any },
@@ -105,7 +108,7 @@ const getPickerColor = (color: number) => {
 
 const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   const maxLength = Math.max(newEmitters.length, prevEmitters.length);
-  let index = 0;
+  let index = -1;
   for (let i = 0; i < maxLength; i++) {
     if (JSON.stringify(newEmitters[i]) !== JSON.stringify(prevEmitters[i])) {
       index = i;
@@ -143,5 +146,5 @@ export {
   saveZip,
   initialConfig,
   validateForm,
-  getZoneShapeProps
+  getZoneShapeProps,
 };
