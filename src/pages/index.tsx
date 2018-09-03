@@ -3,7 +3,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
-import CreateCanvasModal from '../components/CreateCanvasModal';
+import NewProjectModal from '../components/NewProjectModal';
 import { EditorStoreProp } from '../stores/editorStore';
 import withRoot from '../withRoot';
 import Editor from '../components/Editor';
@@ -24,7 +24,7 @@ class Index extends React.Component<
 > {
   render() {
     const { created } = this.props.editorStore!;
-    return !created ? <CreateCanvasModal /> : <Editor />;
+    return !created ? <NewProjectModal /> : <Editor />;
   }
 }
 
