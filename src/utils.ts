@@ -107,10 +107,12 @@ const getPickerColor = (color: number) => {
 };
 
 const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
-  const maxLength = Math.max(newEmitters.length, prevEmitters.length);
+  const newEmittersCopy = deepCopy(newEmitters);
+  const prevEmittersCopy = deepCopy(prevEmitters);
+  const maxLength = Math.max(newEmittersCopy.length, prevEmittersCopy.length);
   let index = -1;
   for (let i = 0; i < maxLength; i++) {
-    if (JSON.stringify(newEmitters[i]) !== JSON.stringify(prevEmitters[i])) {
+    if (JSON.stringify(newEmittersCopy[i]) !== JSON.stringify(prevEmittersCopy[i])) {
       index = i;
       break;
     }

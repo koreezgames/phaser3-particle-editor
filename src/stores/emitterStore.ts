@@ -19,13 +19,7 @@ export class EmitterStore {
       name: `${EMITTER_NAME_PREFIX}1`,
       config: emitterInitialConfig,
       debugModes: { ...DEFAULT_DEBUG_MODES },
-    },
-    {
-      id: 2,
-      name: `${EMITTER_NAME_PREFIX}2`,
-      config: emitterInitialConfig,
-      debugModes: { ...DEFAULT_DEBUG_MODES },
-    },
+    }
   ];
 
   @action.bound
@@ -222,7 +216,7 @@ export class EmitterStore {
     const debugModes = prevDebugModes
       ? { ...prevDebugModes }
       : { ...DEFAULT_DEBUG_MODES };
-    // this.setLastEmitters(this.emitters);
+    this.setLastEmitters(this.emitters);
     this.emitters.push({ id, name, config, debugModes });
     this.setEmitterIndex(this.emitters.length - 1);
   }

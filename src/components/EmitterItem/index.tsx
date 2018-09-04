@@ -39,7 +39,6 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
   };
 
   handleClose = (event: any) => {
-    console.log(event.currentTarget);
     this.setState({ anchorEl: null });
   };
 

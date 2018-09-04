@@ -13,7 +13,7 @@ class AppBar extends Component<EditorStoreProp> {
   render() {
     const { name } = this.props.editorStore!;
     return (
-      <MaterialAppBar position="static">
+      <MaterialAppBar position="sticky">
         <Toolbar variant="dense">
           <Typography variant="title" color="inherit">
             {name.value}

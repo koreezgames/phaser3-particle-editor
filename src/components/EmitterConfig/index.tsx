@@ -9,17 +9,6 @@ import {
   withStyles,
   WithStyles,
 } from '@material-ui/core';
-// import Switch from '../Switch';
-// import TextField from '../TextField';
-// import Select from '../Select';
-// import { blendModes } from '../../constants';
-// import CompositeProperty from '../CompositeProperty';
-// import ToggleComplexTextField from '../ToggleComplexTextField';
-// import Zone from '../Zone';
-// import ComplexZone from '../ComplexZone';
-// import MultipleInput from '../MultipleInput';
-// import { textField } from '../TextField';
-// import { colorPicker } from '../ColorPicker';
 import TextField from '../TextField';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Switch from '../Switch';
@@ -34,8 +23,8 @@ import ComplexZone from '../ComplexZone';
 
 const styles = {
   root: {
-    overflow: 'scroll',
-    height: '100vh',
+    height: 'calc(100vh - 48px)',
+    overflow: 'auto'
   },
 };
 

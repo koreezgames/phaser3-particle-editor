@@ -17,7 +17,11 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       position: 'relative',
-      height: '100vh',
+      height: `calc(100vh - 48px)`,
+    },
+    list: {
+      height: '100%',
+      overflow: 'auto'
     },
     fab: {
       position: 'absolute',
@@ -37,17 +41,19 @@ class EmitterList extends Component<
 
     return (
       <div className={classes.root}>
-        <List>
-          {emitters.map((value: any, index: number) => {
-            return (
-              <Fragment key={value.name}>
-                {index === 0 ? <Divider /> : null}
-                <EmitterItem index={index} />
-                <Divider />
-              </Fragment>
-            );
-          })}
-        </List>
+        <div className={classes.list}>
+          <List disablePadding>
+            {emitters.map((value: any, index: number) => {
+              return (
+                <Fragment key={value.name}>
+                  {index === 0 ? <Divider /> : null}
+                  <EmitterItem index={index} />
+                  <Divider />
+                </Fragment>
+              );
+            })}
+          </List>
+        </div>
         <Button
           variant="fab"
           color="primary"
