@@ -4,9 +4,9 @@ import emitterConfig from './emitterConfig';
 import frames from './frames';
 import zoneEdgeSources from './zoneEdgeSources';
 
-const zoneEdgeSourceTitles = zoneEdgeSources.map(({ name }) => ({
-  text: name,
-  value: name,
+const zoneEdgeShapes = zoneEdgeSources.map(({ shapeType }) => ({
+  text: shapeType,
+  value: shapeType
 }));
 
 const EMITTER_NAME_PREFIX = 'Emitter_';
@@ -21,7 +21,7 @@ export {
   emitterConfig,
   frames,
   zoneEdgeSources,
-  zoneEdgeSourceTitles,
+  zoneEdgeShapes,
   EMITTER_NAME_PREFIX,
   DEFAULT_DEBUG_MODES,
 };

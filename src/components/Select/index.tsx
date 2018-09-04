@@ -27,6 +27,7 @@ class Select extends Component<Props & EmitterStoreProp> {
 
     return (
       <MaterialSelect
+        fullWidth
         value={value}
         onChange={event => {
           changeEmitterConfig(configName, event.target.value);

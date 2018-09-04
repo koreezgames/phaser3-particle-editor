@@ -1,16 +1,16 @@
 import { deepCopy, getEmitterConfig, initialConfig } from '../utils';
 import { CanvasScene } from './scenes';
 
-const createEmitter = (scene: CanvasScene, config: any, frame?: string) => {
+const createEmitter = (scene: CanvasScene, config: any, name: string) => {
   let emitterConfig = config ? getEmitterConfig(config) : initialConfig;
-  scene.particle.createEmitter({
-    frames: frame,
-    ...emitterConfig,
-  });
+  const emitter = scene.particle.createEmitter(emitterConfig);
+  emitter.name = name;
+  console.log(emitterConfig, emitter);
 };
 
-const removeEmitter = (scene: CanvasScene, index: number) => {
+const removeEmitter = (scene: CanvasScene, emitter: any) => {
   const emitters = scene.particle.emitters.list;
+  const index = emitters.indexOf(emitter);
   emitters.splice(index, 1);
 };
 

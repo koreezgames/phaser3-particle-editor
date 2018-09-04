@@ -12,6 +12,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import { EMITTER_STORE, EmitterStoreProp } from '../../stores';
+import { inject, observer } from 'mobx-react';
 
 const actions = [
   <DeleteIcon key={0} />,
@@ -21,7 +23,13 @@ const actions = [
 
 const ITEM_HEIGHT = 48;
 
-class EmitterItem extends Component {
+interface Props {
+  index: number;
+}
+
+@inject(EMITTER_STORE)
+@observer
+class EmitterItem extends Component<Props & EmitterStoreProp> {
   state = {
     anchorEl: null,
   };
@@ -30,21 +38,41 @@ class EmitterItem extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (event: any) => {
-    console.log(event.currentTarget);
+  handleClose = () => {
     this.setState({ anchorEl: null });
   };
 
   render() {
+    const { index, emitterStore } = this.props;
+    const {
+      emitters,
+      changeEmitterIndex,
+      emitterIndex,
+      changeEmitterConfig,
+      removeEmitter,
+      copyEmitter,
+      downloadEmitter,
+    } = emitterStore!;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const { name, config } = emitters[index];
 
     return (
       <Fragment>
-        <ListItem button>
-          <ListItemText primary="Emitter" />
+        <ListItem
+          button
+          selected={index === emitterIndex}
+          onClick={() => changeEmitterIndex(index)}
+        >
+          <ListItemText primary={name} />
           <ListItemSecondaryAction>
-            <Switch color="primary" />
+            <Switch
+              checked={config.visible}
+              color="primary"
+              onChange={event =>
+                changeEmitterConfig('visible', event.target.checked, index)
+              }
+            />
             <IconButton
               aria-label="More"
               aria-haspopup="true"
@@ -64,8 +92,27 @@ class EmitterItem extends Component {
                 },
               }}
             >
-              {actions.map((option, index) => (
-                <MenuItem key={index} onClick={this.handleClose}>
+              {actions.map((option, i) => (
+                <MenuItem
+                  key={i}
+                  disabled={i === 0 && emitters.length === 1}
+                  onClick={() => {
+                    this.handleClose();
+                    switch (i) {
+                      case 0:
+                        removeEmitter(index);
+                        break;
+                      case 1:
+                        copyEmitter(index);
+                        break;
+                      case 2:
+                        downloadEmitter(index);
+                        break;
+                      default:
+                        break;
+                    }
+                  }}
+                >
                   {option}
                 </MenuItem>
               ))}

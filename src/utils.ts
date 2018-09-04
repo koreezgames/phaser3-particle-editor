@@ -1,6 +1,10 @@
-// import { saveAs } from 'file-saver/FileSaver';
-// import JSZip from 'jszip';
-import { emitterConfig as emitterInitialConfig } from './constants';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+
+import {
+  emitterConfig as emitterInitialConfig,
+  zoneEdgeSources,
+} from './constants';
 
 const validateForm = (
   { name, height, width }: { name: any; height: any; width: any },
@@ -104,10 +108,14 @@ const getPickerColor = (color: number) => {
 };
 
 const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
-  const maxLength = Math.max(newEmitters.length, prevEmitters.length);
-  let index = 0;
+  const newEmittersCopy = deepCopy(newEmitters);
+  const prevEmittersCopy = deepCopy(prevEmitters);
+  const maxLength = Math.max(newEmittersCopy.length, prevEmittersCopy.length);
+  let index = -1;
   for (let i = 0; i < maxLength; i++) {
-    if (JSON.stringify(newEmitters[i]) !== JSON.stringify(prevEmitters[i])) {
+    if (
+      JSON.stringify(newEmittersCopy[i]) !== JSON.stringify(prevEmittersCopy[i])
+    ) {
       index = i;
       break;
     }
@@ -115,17 +123,28 @@ const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   return index;
 };
 
-const saveZip = () => {
-  // const zip = new JSZip();
-  // zip.file(`json/${jsonFileName}.json`, jsonConfig);
-  // zip.generateAsync({ type: 'blob' }).then(
-  //   blob => {
-  //     saveAs(blob, `${zipName}.zip`);
-  //   },
-  //   err => {
-  //     console.log(err);
-  //   }
-  // );
+interface Test {
+  jsonConfig: any;
+  zipName: string;
+  jsonFileName: string;
+}
+
+const saveZip = (config: Test) => {
+  const { jsonFileName, jsonConfig, zipName } = config;
+  const zip = new JSZip();
+  zip.file(`json/${jsonFileName}.json`, jsonConfig);
+  zip.generateAsync({ type: 'blob' }).then(
+    (blob: any) => {
+      saveAs(blob, `${zipName}.zip`);
+    },
+    (err: any) => {
+      console.log(err);
+    },
+  );
+};
+
+const getZoneShapeProps = (type: string) => {
+  return zoneEdgeSources.find(({ shapeType }) => shapeType === type);
 };
 
 export {
@@ -139,4 +158,5 @@ export {
   saveZip,
   initialConfig,
   validateForm,
+  getZoneShapeProps,
 };

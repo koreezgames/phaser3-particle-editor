@@ -28,7 +28,7 @@ class ToggleComplexTextField extends Component<Props & EmitterStoreProp> {
             changeEmitterConfig(configName, configValue);
           }}
         />
-        {currentEmitterConfig.bounds ? (
+        {currentEmitterConfig[configName] ? (
           <ComplexTextField configName={configName} />
         ) : null}
       </Fragment>

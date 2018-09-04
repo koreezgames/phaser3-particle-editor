@@ -4,14 +4,13 @@ import {
   DEFAULT_DEBUG_MODES,
   emitterConfig as emitterInitialConfig,
   EMITTER_NAME_PREFIX,
-  zoneEdgeSources,
 } from '../constants';
-import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
+import { deepCopy, getNewEmitterID, hasBoth, hasKey, saveZip } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
   constructor() {
-    this.lastEmitters = this.emitters;
+    // this.setLastEmitters(this.emitters);
   }
   @observable
   emitters = [
@@ -41,16 +40,19 @@ export class EmitterStore {
   @observable
   lastEmitters: any[];
 
-  @action.bound
-  setLastEmitters(emitters: any) {
-    this.lastEmitters = emitters;
-  }
+  // @action.bound
+  // setLastEmitters(emitters: any) {
+  //   this.lastEmitters = deepCopy(emitters);
+  // }
 
   @observable
   emitterIndex = 0;
+
   @action.bound
-  changeEmitterConfig(configName: string, value: any) {
-    _set(this.currentEmitter.config, configName.split('>'), value);
+  changeEmitterConfig(configName: string, value: any, index?: number) {
+    const emitter =
+      index !== undefined ? this.emitters[index] : this.currentEmitter;
+    _set(emitter.config, configName.split('>'), value);
   }
 
   @action.bound
@@ -62,7 +64,7 @@ export class EmitterStore {
 
     let newConfig;
     if (isObjectCurrentValue) {
-      newConfig = isObjectInitValue ? 0 : initialValue;
+      newConfig = isObjectInitValue ? [0] : initialValue;
     } else {
       newConfig = isObjectInitValue
         ? initialValue
@@ -119,59 +121,59 @@ export class EmitterStore {
     this.changeEmitterConfig(configName, newConfig);
   }
 
-  // Zone
-  @action.bound
-  changeZoneType(configName: string, checked: boolean, type: string) {
-    const currentValue = this.currentEmitter.config[configName];
-    let newConfig = currentValue ? { ...currentValue } : {};
+  // // Zone
+  // @action.bound
+  // changeZoneType(configName: string, checked: boolean, type: string) {
+  //   const currentValue = this.currentEmitter.config[configName];
+  //   let newConfig = currentValue ? { ...currentValue } : {};
+  //
+  //   if (checked) {
+  //     newConfig = {
+  //       ...newConfig,
+  //       shapeType: 'Rectangle',
+  //       source: this.getObjectInputProps('Rectangle'),
+  //       type: type,
+  //     };
+  //     if (type === 'edge') {
+  //       newConfig = {
+  //         ...newConfig,
+  //         quantity: 10,
+  //         stepRate: 0,
+  //         yoyo: false,
+  //         seamless: false,
+  //       };
+  //     } else {
+  //       ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
+  //         delete newConfig[key];
+  //       });
+  //     }
+  //   } else {
+  //     newConfig = undefined;
+  //   }
+  //
+  //   this.changeEmitterConfig(configName, newConfig);
+  // }
 
-    if (checked) {
-      newConfig = {
-        ...newConfig,
-        shapeType: 'Rectangle',
-        source: this.getObjectInputProps('Rectangle'),
-        type: type,
-      };
-      if (type === 'edge') {
-        newConfig = {
-          ...newConfig,
-          quantity: 10,
-          stepRate: 0,
-          yoyo: false,
-          seamless: false,
-        };
-      } else {
-        ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
-          delete newConfig[key];
-        });
-      }
-    } else {
-      newConfig = undefined;
-    }
+  // @action.bound
+  // changeZoneSource(configName: string, value: string) {
+  //   const currentValue = this.currentEmitter.config[configName];
+  //   const shapeSource = this.getObjectInputProps(value);
+  //   const newConfig = { ...currentValue };
+  //   newConfig.shapeType = value;
+  //   newConfig.source = shapeSource;
+  //   this.changeEmitterConfig(configName, newConfig);
+  // }
 
-    this.changeEmitterConfig(configName, newConfig);
-  }
-
-  @action.bound
-  changeZoneSource(configName: string, value: string) {
-    const currentValue = this.currentEmitter.config[configName];
-    const shapeSource = this.getObjectInputProps(value);
-    const newConfig = { ...currentValue };
-    newConfig.shapeType = value;
-    newConfig.source = shapeSource;
-    this.changeEmitterConfig(configName, newConfig);
-  }
-
-  getObjectInputProps(shapeType: string) {
-    const shape = zoneEdgeSources.find(source => source.name === shapeType);
-
-    return shape
-      ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
-          acc[title] = defaultValue;
-          return acc;
-        })
-      : null;
-  }
+  // getObjectInputProps(shapeType: string) {
+  //   const shape = zoneEdgeSources.find(source => source.name === shapeType);
+  //
+  //   return shape
+  //     ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
+  //         acc[title] = defaultValue;
+  //         return acc;
+  //       })
+  //     : null;
+  // }
 
   // Picker
   @observable
@@ -194,21 +196,15 @@ export class EmitterStore {
   }
 
   @computed
-  get titles() {
-    return this.emitters.map(({ name }) => name);
-  }
-
-  @computed
   get count() {
     return this.emitters.length;
   }
 
   @action.bound
   removeEmitter(index: number) {
-    const emitters = this.emitters.filter((emitter, i) => i !== index);
+    this.emitters.splice(index, 1);
     const currentEmitterIndex = index === 0 ? index : index - 1;
     this.changeEmitterIndex(currentEmitterIndex);
-    this.setEmitters(emitters);
   }
 
   @action.bound
@@ -219,25 +215,26 @@ export class EmitterStore {
     const debugModes = prevDebugModes
       ? { ...prevDebugModes }
       : { ...DEFAULT_DEBUG_MODES };
+    // this.setLastEmitters(this.emitters);
     this.emitters.push({ id, name, config, debugModes });
     this.setEmitterIndex(this.emitters.length - 1);
   }
 
   @action.bound
-  copyEmitter() {
-    const { config, debugModes } = this.currentEmitter;
+  copyEmitter(index: number) {
+    const { config, debugModes } = this.emitters[index];
     this.addEmitter(deepCopy(config), debugModes);
   }
 
   @action.bound
-  downloadEmitter() {
-    // const { config, name } = this.currentEmitter;
-    // const configJSON = JSON.stringify(config);
-    // saveZip({
-    //   jsonConfig: configJSON,
-    //   zipName: name,
-    //   jsonFileName: name
-    // });
+  downloadEmitter(index: number) {
+    const { config, name } = this.emitters[index];
+    const configJSON = JSON.stringify(config);
+    saveZip({
+      jsonConfig: configJSON,
+      zipName: name,
+      jsonFileName: name,
+    });
   }
 
   @action.bound
@@ -256,17 +253,8 @@ export class EmitterStore {
     // });
   }
 
-  @action.bound
-  hideEmitter(index: number) {
-    this.emitters[index].config.visible = !this.emitters[index].config.visible;
-  }
-
   setEmitterIndex(index: number) {
     this.emitterIndex = index;
-  }
-
-  setEmitters(emitters: any) {
-    this.emitters = emitters;
   }
 }
 
