@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
-import DeleteIcon from '@material-ui/icons/Delete';
+import MenuIcon from '@material-ui/icons/Menu';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import { IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 
-class FadeMenu extends React.Component {
+class AppBarMenu extends React.Component {
   state = {
     anchorEl: null,
   };
@@ -22,11 +24,14 @@ class FadeMenu extends React.Component {
     const open = Boolean(anchorEl);
 
     return (
-      <div>
-        <div onClick={this.handleClick}>
-          <DeleteIcon />
-          File
-        </div>
+      <Fragment>
+        <IconButton
+          color="inherit"
+          aria-label="Menu"
+          onClick={this.handleClick}
+        >
+          <MenuIcon />
+        </IconButton>
 
         <Menu
           id="fade-menu"
@@ -35,14 +40,22 @@ class FadeMenu extends React.Component {
           onClose={this.handleClose}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={this.handleClose}>Export</MenuItem>
-          <MenuItem onClick={this.handleClose} disabled>
-            Import
+          <MenuItem>
+            <ListItemIcon>
+              <SaveAltIcon />
+            </ListItemIcon>
+            <ListItemText inset primary="Export" />
+          </MenuItem>
+          <MenuItem disabled>
+            <ListItemIcon>
+              <SaveAltIcon />
+            </ListItemIcon>
+            <ListItemText inset primary="Import" />
           </MenuItem>
         </Menu>
-      </div>
+      </Fragment>
     );
   }
 }
 
-export default FadeMenu;
+export default AppBarMenu;
