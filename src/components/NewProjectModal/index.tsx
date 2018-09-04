@@ -174,7 +174,11 @@ class NewProjectModal extends React.Component<
                   textColor="primary"
                 >
                   <Tab icon={<CreateIcon />} value={Project.Create} />
-                  <Tab icon={<CloudUploadIcon />} value={Project.Upload} />
+                  <Tab
+                    icon={<CloudUploadIcon />}
+                    value={Project.Upload}
+                    disabled
+                  />
                 </Tabs>
               </AppBar>
             </Grid>
