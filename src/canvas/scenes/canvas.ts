@@ -1,5 +1,3 @@
-// import { autorun } from 'mobx';
-// import { deepCopy, getEmitterConfig, getEmitterIndex } from '../../utils';
 import {
   createEmitter,
   changeEmitter,

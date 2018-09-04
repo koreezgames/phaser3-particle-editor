@@ -9,9 +9,6 @@ import { deepCopy, getNewEmitterID, hasBoth, hasKey, saveZip } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
-  constructor() {
-    // this.setLastEmitters(this.emitters);
-  }
   @observable
   emitters = [
     {
@@ -39,11 +36,6 @@ export class EmitterStore {
 
   @observable
   lastEmitters: any[];
-
-  // @action.bound
-  // setLastEmitters(emitters: any) {
-  //   this.lastEmitters = deepCopy(emitters);
-  // }
 
   @observable
   emitterIndex = 0;
@@ -121,83 +113,11 @@ export class EmitterStore {
     this.changeEmitterConfig(configName, newConfig);
   }
 
-  // // Zone
-  // @action.bound
-  // changeZoneType(configName: string, checked: boolean, type: string) {
-  //   const currentValue = this.currentEmitter.config[configName];
-  //   let newConfig = currentValue ? { ...currentValue } : {};
-  //
-  //   if (checked) {
-  //     newConfig = {
-  //       ...newConfig,
-  //       shapeType: 'Rectangle',
-  //       source: this.getObjectInputProps('Rectangle'),
-  //       type: type,
-  //     };
-  //     if (type === 'edge') {
-  //       newConfig = {
-  //         ...newConfig,
-  //         quantity: 10,
-  //         stepRate: 0,
-  //         yoyo: false,
-  //         seamless: false,
-  //       };
-  //     } else {
-  //       ['yoyo', 'seamless', 'stepRate', 'quantity'].forEach(key => {
-  //         delete newConfig[key];
-  //       });
-  //     }
-  //   } else {
-  //     newConfig = undefined;
-  //   }
-  //
-  //   this.changeEmitterConfig(configName, newConfig);
-  // }
-
-  // @action.bound
-  // changeZoneSource(configName: string, value: string) {
-  //   const currentValue = this.currentEmitter.config[configName];
-  //   const shapeSource = this.getObjectInputProps(value);
-  //   const newConfig = { ...currentValue };
-  //   newConfig.shapeType = value;
-  //   newConfig.source = shapeSource;
-  //   this.changeEmitterConfig(configName, newConfig);
-  // }
-
-  // getObjectInputProps(shapeType: string) {
-  //   const shape = zoneEdgeSources.find(source => source.name === shapeType);
-  //
-  //   return shape
-  //     ? shape.keyValue.reduce((acc, { title, defaultValue }) => {
-  //         acc[title] = defaultValue;
-  //         return acc;
-  //       })
-  //     : null;
-  // }
-
-  // Picker
-  @observable
-  pickerID = -1;
-
-  @action.bound
-  togglePicker(index: number) {
-    this.setPickerID(this.pickerID === -1 ? index : -1);
-  }
-
-  setPickerID(id: number) {
-    this.pickerID = id;
-  }
-
   // emitter position
   @action.bound
   setEmitterPosition(x: number, y: number) {
-    this.changeEmitterConfig('x', [x]);
-    this.changeEmitterConfig('y', [y]);
-  }
-
-  @computed
-  get count() {
-    return this.emitters.length;
+    this.changeEmitterConfig('x', [parseInt(x as any, 10)]);
+    this.changeEmitterConfig('y', [parseInt(y as any, 10)]);
   }
 
   @action.bound
@@ -215,7 +135,6 @@ export class EmitterStore {
     const debugModes = prevDebugModes
       ? { ...prevDebugModes }
       : { ...DEFAULT_DEBUG_MODES };
-    // this.setLastEmitters(this.emitters);
     this.emitters.push({ id, name, config, debugModes });
     this.setEmitterIndex(this.emitters.length - 1);
   }

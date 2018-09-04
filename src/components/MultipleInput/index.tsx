@@ -16,22 +16,12 @@ type Props = {
 @inject(EMITTER_STORE)
 @observer
 class MultipleInput extends Component<Props & EmitterStoreProp> {
-  // constructor(props: Props) {
-  // super(props);
-  // const { configName, emitterStore } = this.props;
-  // const { currentEmitterConfig } = emitterStore!;
-  // const values = currentEmitterConfig[configName];
-  // const length = values.length;
-  // @ts-ignore
-  // this.lastLength = length;
-  // }
-
   getInputComponent = (length: number) => {
     const { configName, emitterStore, children } = this.props;
     const { currentEmitterConfig, changeEmitterConfig } = emitterStore!;
     const values: any[] = currentEmitterConfig[configName];
 
-    const elements = _range(length).map((value, i) => {
+    return _range(length).map((value, i) => {
       const last = value === length - 1;
       const addBtn = last ? (
         <Grid item xs={2}>
@@ -49,11 +39,6 @@ class MultipleInput extends Component<Props & EmitterStoreProp> {
           </IconButton>
         </Grid>
       ) : null;
-
-      // @ts-ignore
-      // console.log(this.lastLength === length ? 'edit' : 'add/remove');
-      // @ts-ignore
-      // const key = this.lastLength === length ? i : _uniqueId();
 
       return (
         <Grid container spacing={0} key={i}>
@@ -78,9 +63,6 @@ class MultipleInput extends Component<Props & EmitterStoreProp> {
         </Grid>
       );
     });
-    // @ts-ignore
-    // this.lastLength = length;
-    return elements;
   };
 
   render() {
