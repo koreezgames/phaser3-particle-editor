@@ -5,23 +5,36 @@ import {
   AppBar as MaterialAppBar,
   Toolbar,
   Typography,
+  withStyles,
+  WithStyles,
 } from '@material-ui/core';
+import packageJSON from '../../../package.json';
+import AppBarMenu from '../AppBarMenu';
+
+const styles = {
+  flex: {
+    flexGrow: 1,
+  },
+};
 
 @inject(EDITOR_STORE)
 @observer
-class AppBar extends Component<EditorStoreProp> {
+class AppBar extends Component<EditorStoreProp & WithStyles<typeof styles>> {
   render() {
-    const { name } = this.props.editorStore!;
+    const { classes, editorStore } = this.props;
+    const { name } = editorStore!;
     return (
       <MaterialAppBar position="sticky">
         <Toolbar variant="dense">
-          <Typography variant="title" color="inherit">
+          <AppBarMenu />
+          <Typography variant="title" color="inherit" className={classes.flex}>
             {name.value}
           </Typography>
+          <Typography color="inherit">v {packageJSON.version}</Typography>
         </Toolbar>
       </MaterialAppBar>
     );
   }
 }
 
-export default AppBar;
+export default withStyles(styles)(AppBar);

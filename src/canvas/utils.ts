@@ -5,7 +5,6 @@ const createEmitter = (scene: CanvasScene, config: any, name: string) => {
   let emitterConfig = config ? getEmitterConfig(config) : initialConfig;
   const emitter = scene.particle.createEmitter(emitterConfig);
   emitter.name = name;
-  console.log(emitterConfig, emitter);
 };
 
 const removeEmitter = (scene: CanvasScene, emitter: any) => {

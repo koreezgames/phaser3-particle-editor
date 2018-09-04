@@ -24,7 +24,7 @@ import ComplexZone from '../ComplexZone';
 const styles = {
   root: {
     height: 'calc(100vh - 48px)',
-    overflow: 'auto'
+    overflow: 'auto',
   },
 };
 
@@ -90,6 +90,19 @@ class EmitterConfig extends Component<WithStyles<typeof styles>> {
               </Grid>
               <Grid item xs={6}>
                 <Select configName="frame" options={frames} />
+              </Grid>
+            </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Tint</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container spacing={40}>
+              <Grid item xs={12}>
+                <MultipleInput configName="tint">{colorPicker}</MultipleInput>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
@@ -278,19 +291,6 @@ class EmitterConfig extends Component<WithStyles<typeof styles>> {
                   configName="bounds"
                   complex={{ x: 0, y: 0, width: 0, height: 0 }}
                 />
-              </Grid>
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>Tint</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid container spacing={40}>
-              <Grid item xs={12}>
-                <MultipleInput configName="tint">{colorPicker}</MultipleInput>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
