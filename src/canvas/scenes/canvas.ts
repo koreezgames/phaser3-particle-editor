@@ -1,15 +1,8 @@
 // import { autorun } from 'mobx';
 // import { deepCopy, getEmitterConfig, getEmitterIndex } from '../../utils';
-import {
-  createEmitter,
-  changeEmitter,
-  removeEmitter,
-  clearZoneGraphic,
-  drawDebugZoneGraphic,
-} from '../utils';
+import { createEmitter, changeEmitter, removeEmitter } from '../utils';
 import emitterStore from '../../stores/emitterStore';
-import { getEmitterIndex, getEmitterConfig } from '../../utils';
-import { autorun } from 'mobx';
+import { autorun, toJS } from 'mobx';
 
 export default class Canvas extends Phaser.Scene {
   public particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
@@ -26,7 +19,7 @@ export default class Canvas extends Phaser.Scene {
     this.particle = this.add.particles('shape');
 
     emitters.forEach(emitter => {
-      createEmitter(this, emitter.config);
+      createEmitter(this, emitter.config, emitter.name);
     });
 
     let clicked = false;
@@ -47,61 +40,34 @@ export default class Canvas extends Phaser.Scene {
     autorun(this.redraw.bind(this));
   }
 
-  redraw() {
-    const {
-      emitters,
-      currentEmitter,
-      emitterIndex,
-      lastEmitters,
-    } = emitterStore;
-    const { debugModes } = currentEmitter;
-
-    if (lastEmitters.length) {
-      const index = getEmitterIndex(emitters, lastEmitters);
-
-      console.log(emitters, lastEmitters, index);
-
-      if (index === -1) {
-        emitters.forEach((emitter, i) => {
-          changeEmitter(this.particle.emitters.list[i], emitter.config);
-        });
-        return;
-      }
-
-      const config = index < emitters.length && emitters[index].config;
-
-      if (emitters.length === lastEmitters.length) {
-        const emitter = this.particle.emitters.list[index];
-        changeEmitter(emitter, config); // change
-      } else if (emitters.length > lastEmitters.length) {
-        createEmitter(this, config); // add
-      } else if (emitters.length < lastEmitters.length) {
-        removeEmitter(this, index); // remove
-      }
-
-      // debug mode
-      const configZone: { deathZone?: any; emitZone?: any } = getEmitterConfig(
-        emitters[emitterIndex].config,
+  syncPhaserEmittersToEmitters(
+    emitters: any,
+    currentEmitter: any,
+    emitterIndex: number,
+  ) {
+    if (this.particle.emitters.list.length === toJS(emitters).length) {
+      emitters.forEach((emitter: any, i: number) => {
+        changeEmitter(this.particle.emitters.list[i], emitter.config);
+      });
+    } else if (this.particle.emitters.list.length < emitters.length) {
+      createEmitter(this, currentEmitter.config, currentEmitter.name);
+    } else {
+      const removedEmitter = this.particle.emitters.list.filter(
+        phaserEmitter => {
+          for (let i = 0; i < emitters.length; i++) {
+            if (phaserEmitter.name === emitters[i].name) {
+              return false;
+            }
+          }
+          return true;
+        },
       );
-      clearZoneGraphic(this.deathZoneDebugGraphics);
-      clearZoneGraphic(this.emitZoneDebugGraphics);
-
-      if (debugModes.deathZone && configZone.deathZone !== undefined) {
-        this.deathZoneDebugGraphics = drawDebugZoneGraphic(
-          configZone.deathZone,
-          this,
-          0x00ff00,
-        );
-      }
-      if (debugModes.emitZone && configZone.emitZone !== undefined) {
-        this.emitZoneDebugGraphics = drawDebugZoneGraphic(
-          configZone.emitZone,
-          this,
-          0x00ffff,
-          'EmitZone',
-          configZone,
-        );
-      }
+      removeEmitter(this, removedEmitter[0]);
     }
+  }
+
+  redraw() {
+    const { emitters, currentEmitter, emitterIndex } = emitterStore;
+    this.syncPhaserEmittersToEmitters(emitters, currentEmitter, emitterIndex);
   }
 }

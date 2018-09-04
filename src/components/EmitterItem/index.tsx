@@ -38,7 +38,7 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (event: any) => {
+  handleClose = () => {
     this.setState({ anchorEl: null });
   };
 
@@ -49,6 +49,9 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
       changeEmitterIndex,
       emitterIndex,
       changeEmitterConfig,
+      removeEmitter,
+      copyEmitter,
+      downloadEmitter,
     } = emitterStore!;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
@@ -90,7 +93,26 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
               }}
             >
               {actions.map((option, i) => (
-                <MenuItem key={i} onClick={this.handleClose}>
+                <MenuItem
+                  key={i}
+                  disabled={i === 0 && emitters.length === 1}
+                  onClick={() => {
+                    this.handleClose();
+                    switch (i) {
+                      case 0:
+                        removeEmitter(index);
+                        break;
+                      case 1:
+                        copyEmitter(index);
+                        break;
+                      case 2:
+                        downloadEmitter(index);
+                        break;
+                      default:
+                        break;
+                    }
+                  }}
+                >
                   {option}
                 </MenuItem>
               ))}

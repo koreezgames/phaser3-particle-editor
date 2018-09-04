@@ -1,5 +1,6 @@
-// import { saveAs } from 'file-saver/FileSaver';
-// import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+
 import {
   emitterConfig as emitterInitialConfig,
   zoneEdgeSources,
@@ -112,7 +113,9 @@ const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   const maxLength = Math.max(newEmittersCopy.length, prevEmittersCopy.length);
   let index = -1;
   for (let i = 0; i < maxLength; i++) {
-    if (JSON.stringify(newEmittersCopy[i]) !== JSON.stringify(prevEmittersCopy[i])) {
+    if (
+      JSON.stringify(newEmittersCopy[i]) !== JSON.stringify(prevEmittersCopy[i])
+    ) {
       index = i;
       break;
     }
@@ -120,17 +123,24 @@ const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   return index;
 };
 
-const saveZip = () => {
-  // const zip = new JSZip();
-  // zip.file(`json/${jsonFileName}.json`, jsonConfig);
-  // zip.generateAsync({ type: 'blob' }).then(
-  //   blob => {
-  //     saveAs(blob, `${zipName}.zip`);
-  //   },
-  //   err => {
-  //     console.log(err);
-  //   }
-  // );
+interface Test {
+  jsonConfig: any;
+  zipName: string;
+  jsonFileName: string;
+}
+
+const saveZip = (config: Test) => {
+  const { jsonFileName, jsonConfig, zipName } = config;
+  const zip = new JSZip();
+  zip.file(`json/${jsonFileName}.json`, jsonConfig);
+  zip.generateAsync({ type: 'blob' }).then(
+    (blob: any) => {
+      saveAs(blob, `${zipName}.zip`);
+    },
+    (err: any) => {
+      console.log(err);
+    },
+  );
 };
 
 const getZoneShapeProps = (type: string) => {

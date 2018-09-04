@@ -5,12 +5,12 @@ import {
   emitterConfig as emitterInitialConfig,
   EMITTER_NAME_PREFIX,
 } from '../constants';
-import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
+import { deepCopy, getNewEmitterID, hasBoth, hasKey, saveZip } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
   constructor() {
-    this.setLastEmitters(this.emitters);
+    // this.setLastEmitters(this.emitters);
   }
   @observable
   emitters = [
@@ -19,7 +19,7 @@ export class EmitterStore {
       name: `${EMITTER_NAME_PREFIX}1`,
       config: emitterInitialConfig,
       debugModes: { ...DEFAULT_DEBUG_MODES },
-    }
+    },
   ];
 
   @action.bound
@@ -40,10 +40,10 @@ export class EmitterStore {
   @observable
   lastEmitters: any[];
 
-  @action.bound
-  setLastEmitters(emitters: any) {
-    this.lastEmitters = deepCopy(emitters);
-  }
+  // @action.bound
+  // setLastEmitters(emitters: any) {
+  //   this.lastEmitters = deepCopy(emitters);
+  // }
 
   @observable
   emitterIndex = 0;
@@ -202,10 +202,9 @@ export class EmitterStore {
 
   @action.bound
   removeEmitter(index: number) {
-    const emitters = this.emitters.filter((emitter, i) => i !== index);
+    this.emitters.splice(index, 1);
     const currentEmitterIndex = index === 0 ? index : index - 1;
     this.changeEmitterIndex(currentEmitterIndex);
-    this.setEmitters(emitters);
   }
 
   @action.bound
@@ -216,26 +215,26 @@ export class EmitterStore {
     const debugModes = prevDebugModes
       ? { ...prevDebugModes }
       : { ...DEFAULT_DEBUG_MODES };
-    this.setLastEmitters(this.emitters);
+    // this.setLastEmitters(this.emitters);
     this.emitters.push({ id, name, config, debugModes });
     this.setEmitterIndex(this.emitters.length - 1);
   }
 
   @action.bound
-  copyEmitter() {
-    const { config, debugModes } = this.currentEmitter;
+  copyEmitter(index: number) {
+    const { config, debugModes } = this.emitters[index];
     this.addEmitter(deepCopy(config), debugModes);
   }
 
   @action.bound
-  downloadEmitter() {
-    // const { config, name } = this.currentEmitter;
-    // const configJSON = JSON.stringify(config);
-    // saveZip({
-    //   jsonConfig: configJSON,
-    //   zipName: name,
-    //   jsonFileName: name
-    // });
+  downloadEmitter(index: number) {
+    const { config, name } = this.emitters[index];
+    const configJSON = JSON.stringify(config);
+    saveZip({
+      jsonConfig: configJSON,
+      zipName: name,
+      jsonFileName: name,
+    });
   }
 
   @action.bound
@@ -256,10 +255,6 @@ export class EmitterStore {
 
   setEmitterIndex(index: number) {
     this.emitterIndex = index;
-  }
-
-  setEmitters(emitters: any) {
-    this.emitters = emitters;
   }
 }
 
