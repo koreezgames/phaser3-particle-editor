@@ -1,3 +1,5 @@
+import frames from './frames';
+
 const emitterConfig = {
   active: true,
   visible: true,
@@ -8,7 +10,7 @@ const emitterConfig = {
   on: true,
   particleBringToTop: true,
   radial: true,
-  frame: 'hexagon',
+  frame: frames[0].value,
   frequency: 0,
   gravityX: 0,
   gravityY: 0,
