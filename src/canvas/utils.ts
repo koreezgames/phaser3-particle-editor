@@ -27,13 +27,13 @@ const changeEmitter = (
 
   const { deathZone, emitZone, bounds } = newConfig;
 
-  if (bounds) {
+  if (!bounds) {
     (emitter as any).bounds = null;
   }
-  if (emitZone) {
+  if (!emitZone) {
     (emitter as any).emitZone = null;
   }
-  if (deathZone) {
+  if (!deathZone) {
     (emitter as any).deathZone = null;
   }
   // tslint:disable-next-line
