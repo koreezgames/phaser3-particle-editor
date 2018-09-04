@@ -29,7 +29,7 @@ const emitterConfig = {
   quantity: [1],
   rotate: [0],
   scale: [1],
-  speed: [0],
+  speed: [200],
   x: [400],
   y: [300],
   bounds: undefined,

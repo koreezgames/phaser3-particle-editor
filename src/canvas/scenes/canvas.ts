@@ -1,8 +1,15 @@
 // import { autorun } from 'mobx';
 // import { deepCopy, getEmitterConfig, getEmitterIndex } from '../../utils';
-import { createEmitter, changeEmitter, removeEmitter } from '../utils';
+import {
+  createEmitter,
+  changeEmitter,
+  removeEmitter,
+  clearZoneGraphic,
+  drawDebugZoneGraphic,
+} from '../utils';
 import emitterStore from '../../stores/emitterStore';
 import { autorun, toJS } from 'mobx';
+import { getEmitterConfig } from '../../utils';
 
 export default class Canvas extends Phaser.Scene {
   public particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
@@ -40,11 +47,7 @@ export default class Canvas extends Phaser.Scene {
     autorun(this.redraw.bind(this));
   }
 
-  syncPhaserEmittersToEmitters(
-    emitters: any,
-    currentEmitter: any,
-    emitterIndex: number,
-  ) {
+  syncPhaserEmittersToEmitters(emitters: any, currentEmitter: any) {
     if (this.particle.emitters.list.length === toJS(emitters).length) {
       emitters.forEach((emitter: any, i: number) => {
         changeEmitter(this.particle.emitters.list[i], emitter.config);
@@ -66,8 +69,36 @@ export default class Canvas extends Phaser.Scene {
     }
   }
 
+  drawDebugZones(debugModes: any, emitters: any, emitterIndex: number) {
+    const configZone: { deathZone?: any; emitZone?: any } = getEmitterConfig(
+      emitters[emitterIndex].config,
+    );
+
+    clearZoneGraphic(this.deathZoneDebugGraphics);
+    clearZoneGraphic(this.emitZoneDebugGraphics);
+
+    if (debugModes.deathZone && configZone.deathZone !== undefined) {
+      this.deathZoneDebugGraphics = drawDebugZoneGraphic(
+        configZone.deathZone,
+        this,
+        0x00ff00,
+      );
+    }
+    if (debugModes.emitZone && configZone.emitZone !== undefined) {
+      this.emitZoneDebugGraphics = drawDebugZoneGraphic(
+        configZone.emitZone,
+        this,
+        0x00ffff,
+        'EmitZone',
+        configZone,
+      );
+    }
+  }
+
   redraw() {
     const { emitters, currentEmitter, emitterIndex } = emitterStore;
-    this.syncPhaserEmittersToEmitters(emitters, currentEmitter, emitterIndex);
+    const { debugModes } = currentEmitter;
+    this.syncPhaserEmittersToEmitters(emitters, currentEmitter);
+    this.drawDebugZones(debugModes, emitters, emitterIndex);
   }
 }
