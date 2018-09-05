@@ -30,7 +30,6 @@ class AppBar extends Component<EditorStoreProp & WithStyles<typeof styles>> {
           <Typography
             variant="title"
             color="inherit"
-            align="center"
             className={classes.flex}
           >
             {name.value}

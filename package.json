@@ -18,11 +18,11 @@
     "lodash.set": "^4.3.2",
     "lodash.startcase": "^4.4.0",
     "lodash.uniqueid": "^4.0.1",
-    "material-ui-color-picker": "^2.1.1",
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.5",
     "phaser": "^3.12.0-beta2",
     "react": "latest",
+    "react-color": "^2.14.1",
     "react-dom": "latest",
     "react-scripts-ts": "latest"
   },

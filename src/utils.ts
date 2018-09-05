@@ -1,5 +1,7 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+import shapesIMAGE from './canvas/assets/shapes.png';
+import shapesJSON from './canvas/assets/shapes.json';
 
 import {
   emitterConfig as emitterInitialConfig,
@@ -41,7 +43,10 @@ const isValidSize = (value: number) => {
   return value > 0;
 };
 
-const getEmitterConfig = (config: any) => {
+const getEmitterConfig = (
+  config: any,
+  onSourceChange?: (source: any, shapeProps: any) => {},
+) => {
   const newConfig = {};
   for (const key in config) {
     if (config.hasOwnProperty(key)) {
@@ -57,6 +62,9 @@ const getEmitterConfig = (config: any) => {
             ...Object.values(value.source),
           ),
         };
+        if (onSourceChange) {
+          newConfig[key] = onSourceChange(newConfig[key], value.source);
+        }
       } else {
         newConfig[key] =
           Array.isArray(value) && value.length === 1 && key !== 'tint'
@@ -124,23 +132,30 @@ const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
 };
 
 interface Test {
-  jsonConfig: any;
-  zipName: string;
-  jsonFileName: string;
+  emittersJSON: any;
+  name: string;
 }
 
 const saveZip = (config: Test) => {
-  const { jsonFileName, jsonConfig, zipName } = config;
+  let { name, emittersJSON } = config;
+  name = name === 'shapes' ? 'particle_shapes' : name;
   const zip = new JSZip();
-  zip.file(`json/${jsonFileName}.json`, jsonConfig);
-  zip.generateAsync({ type: 'blob' }).then(
-    (blob: any) => {
-      saveAs(blob, `${zipName}.zip`);
-    },
-    (err: any) => {
-      console.log(err);
-    },
-  );
+
+  fetch(shapesIMAGE)
+    .then(data => data.arrayBuffer())
+    .then(buffer => {
+      zip.file('shape.png', buffer);
+      zip.file(`${name}.json`, emittersJSON);
+      zip.file(`shapes.json`, JSON.stringify(shapesJSON));
+      zip.generateAsync({ type: 'blob' }).then(
+        (blob: any) => {
+          saveAs(blob, `${name}.zip`);
+        },
+        (err: any) => {
+          console.log(err);
+        },
+      );
+    });
 };
 
 const getZoneShapeProps = (type: string) => {

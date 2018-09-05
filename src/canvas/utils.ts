@@ -35,8 +35,6 @@ const changeEmitter = (
   if (!deathZone) {
     (emitter as any).deathZone = null;
   }
-  // tslint:disable-next-line
-  console.log(JSON.stringify(newConfig));
 };
 
 const drawDebugZoneGraphic = (
