@@ -2,11 +2,19 @@ import blendModes from './blendModes';
 import easing from './easing';
 import emitterConfig from './emitterConfig';
 import frames from './frames';
-import zoneEdgeSources from './zoneEdgeSources';
+import zoneEdgeSources, {
+  deathZoneOptions,
+  emitZoneOptions,
+} from './zoneEdgeSources';
 
-const zoneEdgeShapes = zoneEdgeSources.map(({ shapeType }) => ({
-  text: shapeType,
-  value: shapeType
+const deathZoneEdgeShapes = deathZoneOptions.map(source => ({
+  text: source.shapeType,
+  value: source.shapeType,
+}));
+
+const emitZoneEdgeShapes = emitZoneOptions.map(source => ({
+  text: source.shapeType,
+  value: source.shapeType,
 }));
 
 const EMITTER_NAME_PREFIX = 'Emitter_';
@@ -21,7 +29,8 @@ export {
   emitterConfig,
   frames,
   zoneEdgeSources,
-  zoneEdgeShapes,
+  emitZoneEdgeShapes,
+  deathZoneEdgeShapes,
   EMITTER_NAME_PREFIX,
   DEFAULT_DEBUG_MODES,
 };

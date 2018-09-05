@@ -20,6 +20,7 @@ import MultipleInput from '../MultipleInput';
 import { colorPicker } from '../ColorPicker';
 import Zone from '../Zone';
 import ComplexZone from '../ComplexZone';
+import { deathZoneEdgeShapes, emitZoneEdgeShapes } from '../../constants';
 
 const styles = {
   root: {
@@ -303,7 +304,11 @@ class EmitterConfig extends Component<WithStyles<typeof styles>> {
           <ExpansionPanelDetails>
             <Grid container spacing={40}>
               <Grid item xs={12}>
-                <Zone configName="deathZone" types={['onEnter', 'onLeave']} />
+                <Zone
+                  configName="deathZone"
+                  types={['onEnter', 'onLeave']}
+                  options={deathZoneEdgeShapes}
+                />
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
@@ -316,7 +321,11 @@ class EmitterConfig extends Component<WithStyles<typeof styles>> {
           <ExpansionPanelDetails>
             <Grid container spacing={40}>
               <Grid item xs={12}>
-                <ComplexZone configName="emitZone" types={['edge', 'random']} />
+                <ComplexZone
+                  configName="emitZone"
+                  types={['edge', 'random']}
+                  options={emitZoneEdgeShapes}
+                />
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
