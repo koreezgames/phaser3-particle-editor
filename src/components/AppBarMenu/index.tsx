@@ -120,7 +120,7 @@ class AppBarMenu extends Component<EditorStoreProp & EmitterStoreProp> {
               size="small"
               variant="contained"
               onClick={this.handleDialogClose}
-              color="primary"
+              color="secondary"
             >
               Cancel
             </Button>
