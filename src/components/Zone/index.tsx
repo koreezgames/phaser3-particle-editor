@@ -8,7 +8,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '../Select';
-import { zoneEdgeShapes } from '../../constants';
 import ComplexTextField from '../ComplexTextField';
 
 interface Props {
@@ -16,6 +15,7 @@ interface Props {
   types: [string, string];
   onEnable?: (zoneValue: any) => any;
   onTypeChange?: (zoneValue: any, type: string) => any;
+  options: any;
 }
 
 @inject(EMITTER_STORE)
@@ -50,7 +50,7 @@ class Zone extends Component<Props & EmitterStoreProp> {
   }
 
   render() {
-    const { configName, types, emitterStore, onEnable } = this.props;
+    const { configName, types, emitterStore, onEnable, options } = this.props;
     const {
       currentEmitter,
       currentEmitterConfig,
@@ -84,7 +84,7 @@ class Zone extends Component<Props & EmitterStoreProp> {
             />
             <Select
               configName={`${configName}>source`}
-              options={zoneEdgeShapes}
+              options={options}
               value={zone.shapeType}
               onChange={event => {
                 const zoneValue = {

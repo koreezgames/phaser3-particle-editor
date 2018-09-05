@@ -8,6 +8,7 @@ import Switch from '../Switch';
 interface Props {
   configName: string;
   types: [string, string];
+  options: any;
 }
 
 const edgeZoneComplexProps = {
@@ -41,7 +42,7 @@ class ComplexZone extends Component<Props & EmitterStoreProp> {
   };
 
   render() {
-    const { configName, types, emitterStore } = this.props;
+    const { configName, types, emitterStore, options } = this.props;
     const { currentEmitterConfig } = emitterStore!;
     const zone = currentEmitterConfig[configName];
 
@@ -52,6 +53,7 @@ class ComplexZone extends Component<Props & EmitterStoreProp> {
           types={types}
           onEnable={this.onEnable}
           onTypeChange={this.onTypeChange}
+          options={options}
         />
         {zone && zone.type === types[0] ? (
           <Fragment>

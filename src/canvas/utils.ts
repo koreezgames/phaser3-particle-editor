@@ -53,8 +53,33 @@ const drawDebugZoneGraphic = (
 
   if (type === 'EmitZone') {
     const { x, y } = config;
-    _source.x = _source.x + x;
-    _source.y = _source.y + y;
+    switch (shapeType) {
+      case 'Rectangle':
+      case 'Ellipse':
+      case 'Circle': {
+        _source.x = _source.x + x;
+        _source.y = _source.y + y;
+        break;
+      }
+      case 'Line': {
+        _source.x1 = _source.x1 + x;
+        _source.y1 = _source.y1 + y;
+        _source.x2 = _source.x2 + x;
+        _source.y2 = _source.y2 + y;
+        break;
+      }
+      case 'Triangle': {
+        _source.x1 = _source.x1 + x;
+        _source.y1 = _source.y1 + y;
+        _source.x2 = _source.x2 + x;
+        _source.y2 = _source.y2 + y;
+        _source.x3 = _source.x3 + x;
+        _source.y3 = _source.y3 + y;
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   const shape = new Phaser.Geom[shapeType](...Object.values(_source));

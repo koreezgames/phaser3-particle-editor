@@ -176,8 +176,6 @@ export class EmitterStore {
       configs = configs.filter((config: any) => config.visible);
     }
 
-    console.log(configs);
-
     let configsJSON = JSON.stringify(configs);
     zoneSources.forEach((source: string) => {
       configsJSON = configsJSON.replace(`"${source}"`, `${source}`);
