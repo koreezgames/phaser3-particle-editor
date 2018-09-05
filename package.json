@@ -1,8 +1,9 @@
 {
-  "name": "create-react-app-with-typescript",
+  "name": "phaser3-particle-editor",
   "version": "1.0.0-alpha1",
   "private": true,
   "main": "src/index.tsx",
+  "homepage": "http://koreezgames.github.io/phaser3-particle-editor",
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "^3.0.1",
@@ -20,7 +21,7 @@
     "lodash.uniqueid": "^4.0.1",
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.5",
-    "phaser": "^3.12.0-beta2",
+    "phaser": "^3.12.0",
     "react": "latest",
     "react-color": "^2.14.1",
     "react-dom": "latest",
@@ -30,6 +31,7 @@
     "@types/jest": "*",
     "@types/lodash": "^4.14.116",
     "@types/node": "*",
+    "gh-pages": "^1.2.0",
     "prettier": "^1.14.2",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "latest"
@@ -38,6 +40,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
