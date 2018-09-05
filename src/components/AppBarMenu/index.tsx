@@ -4,26 +4,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import MenuIcon from '@material-ui/icons/Menu';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import {
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Checkbox,
-  FormControlLabel,
-} from '@material-ui/core';
-import { EditorStoreProp, EDITOR_STORE, EMITTER_STORE } from '../../stores';
+import { IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
+import { EditorStoreProp, EDITOR_STORE } from '../../stores';
 import { inject, observer } from 'mobx-react';
-import { EmitterStoreProp } from '../../stores/emitterStore';
 
-@inject(EDITOR_STORE, EMITTER_STORE)
+@inject(EDITOR_STORE)
 @observer
-class AppBarMenu extends Component<EditorStoreProp & EmitterStoreProp> {
+class AppBarMenu extends Component<EditorStoreProp> {
   state = {
     anchorEl: null,
     isOpenDialog: false,
@@ -38,32 +25,11 @@ class AppBarMenu extends Component<EditorStoreProp & EmitterStoreProp> {
     this.setState({ anchorEl: null });
   };
 
-  handleDialogClose = () => {
-    this.setState({ isOpenDialog: false });
-  };
-
-  handleExportClick = () => {
-    this.setState({ isOpenDialog: true, anchorEl: null });
-  };
-
-  handlExportClick = () => {
-    const { editorStore, emitterStore } = this.props;
-    const { name } = editorStore!;
-    const { downloadAll } = emitterStore!;
-    downloadAll(name.value, this.state.exportHiddenEmitters);
-  };
-
-  handleChangeExportHiddenEmitters = (value: boolean) => {
-    this.setState({ exportHiddenEmitters: value });
-  };
-
   render() {
-    const { editorStore, emitterStore } = this.props;
-    const { name } = editorStore!;
-    const { emitters } = emitterStore!;
-    const { anchorEl, isOpenDialog, exportHiddenEmitters } = this.state;
+    const { editorStore } = this.props;
+    const { setOpenExportDialog } = editorStore!;
+    const { anchorEl } = this.state;
     const menuOpen = Boolean(anchorEl);
-    const issetHidden = emitters.some(emitter => !emitter.config.visible);
 
     return (
       <Fragment>
@@ -77,7 +43,12 @@ class AppBarMenu extends Component<EditorStoreProp & EmitterStoreProp> {
           onClose={this.handleMenuClose}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={this.handleExportClick}>
+          <MenuItem
+            onClick={() => {
+              setOpenExportDialog(true);
+              this.handleMenuClose();
+            }}
+          >
             <ListItemIcon>
               <SaveAltIcon />
             </ListItemIcon>
@@ -90,53 +61,6 @@ class AppBarMenu extends Component<EditorStoreProp & EmitterStoreProp> {
             <ListItemText inset primary="Import" />
           </MenuItem> */}
         </Menu>
-
-        <Dialog open={isOpenDialog} onClose={this.handleDialogClose}>
-          <DialogTitle>Export</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Export project {name.value}
-              .zip ?
-            </DialogContentText>
-            {issetHidden ? (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={exportHiddenEmitters}
-                    onChange={event =>
-                      this.handleChangeExportHiddenEmitters(
-                        event.target.checked,
-                      )
-                    }
-                    color="primary"
-                  />
-                }
-                label="export hidden emitters"
-              />
-            ) : null}
-          </DialogContent>
-          <DialogActions>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={this.handleDialogClose}
-              color="secondary"
-            >
-              Cancel
-            </Button>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => {
-                this.handlExportClick();
-                this.handleDialogClose();
-              }}
-              color="primary"
-            >
-              Export
-            </Button>
-          </DialogActions>
-        </Dialog>
       </Fragment>
     );
   }

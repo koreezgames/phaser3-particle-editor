@@ -2,12 +2,13 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { inject, observer } from 'mobx-react';
-import React from 'react';
+import React, { Fragment } from 'react';
 import NewProjectModal from '../components/NewProjectModal';
 import { EditorStoreProp } from '../stores/editorStore';
 import withRoot from '../withRoot';
 import Editor from '../components/Editor';
 import { EDITOR_STORE } from '../stores';
+import ExportProjectModal from '../components/ExportProjectModal';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -24,7 +25,14 @@ class Index extends React.Component<
 > {
   render() {
     const { created } = this.props.editorStore!;
-    return !created ? <NewProjectModal /> : <Editor />;
+    return !created ? (
+      <NewProjectModal />
+    ) : (
+      <Fragment>
+        <Editor />
+        <ExportProjectModal />
+      </Fragment>
+    );
   }
 }
 

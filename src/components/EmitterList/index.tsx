@@ -21,7 +21,7 @@ const styles = (theme: Theme) =>
     },
     list: {
       height: '100%',
-      overflow: 'auto'
+      overflow: 'auto',
     },
     fab: {
       position: 'absolute',

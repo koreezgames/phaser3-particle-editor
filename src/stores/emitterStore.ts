@@ -5,14 +5,7 @@ import {
   emitterConfig as emitterInitialConfig,
   EMITTER_NAME_PREFIX,
 } from '../constants';
-import {
-  deepCopy,
-  getNewEmitterID,
-  hasBoth,
-  hasKey,
-  saveZip,
-  getEmitterConfig,
-} from '../utils';
+import { deepCopy, getNewEmitterID, hasBoth, hasKey } from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
@@ -155,36 +148,6 @@ export class EmitterStore {
   @action.bound
   changeEmitterIndex(index: number) {
     this.emitterIndex = index;
-  }
-
-  @action.bound
-  downloadAll(name: string, exportHidden?: boolean) {
-    const zoneSources: any[] = [];
-    let configs: any = this.emitters.map(emitter =>
-      getEmitterConfig(emitter.config, (source: any, shapeProps: any) => {
-        const sourceCopy = { ...source };
-        sourceCopy.source = `new Phaser.Geom.${source.shapeType}(${[
-          Object.values(shapeProps),
-        ]})`;
-        delete sourceCopy.shapeType;
-        zoneSources.push(sourceCopy.source);
-        return sourceCopy;
-      }),
-    );
-
-    if (exportHidden === false) {
-      configs = configs.filter((config: any) => config.visible);
-    }
-
-    let configsJSON = JSON.stringify(configs);
-    zoneSources.forEach((source: string) => {
-      configsJSON = configsJSON.replace(`"${source}"`, `${source}`);
-    });
-
-    saveZip({
-      emittersJSON: configsJSON,
-      name: name,
-    });
   }
 
   setEmitterIndex(index: number) {

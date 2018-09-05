@@ -135,7 +135,38 @@ interface Test {
   emittersJSON: any;
   name: string;
 }
+const exportProject = (
+  name: string,
+  emitters: any[],
+  exportHidden?: boolean,
+) => {
+  const zoneSources: any[] = [];
+  let configs: any = emitters.map(emitter =>
+    getEmitterConfig(emitter.config, (source: any, shapeProps: any) => {
+      const sourceCopy = { ...source };
+      sourceCopy.source = `new Phaser.Geom.${source.shapeType}(${[
+        Object.values(shapeProps),
+      ]})`;
+      delete sourceCopy.shapeType;
+      zoneSources.push(sourceCopy.source);
+      return sourceCopy;
+    }),
+  );
 
+  if (exportHidden === false) {
+    configs = configs.filter((config: any) => config.visible);
+  }
+
+  let configsJSON = JSON.stringify(configs);
+  zoneSources.forEach((source: string) => {
+    configsJSON = configsJSON.replace(`"${source}"`, `${source}`);
+  });
+
+  saveZip({
+    emittersJSON: configsJSON,
+    name: name,
+  });
+};
 const saveZip = (config: Test) => {
   let { name, emittersJSON } = config;
   name = name === 'shapes' ? 'particle_shapes' : name;
@@ -174,4 +205,5 @@ export {
   initialConfig,
   validateForm,
   getZoneShapeProps,
+  exportProject,
 };

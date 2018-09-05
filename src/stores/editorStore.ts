@@ -6,6 +6,12 @@ export class EditorStore {
   created: boolean;
 
   @observable
+  openExportDialog: boolean = false;
+
+  @observable
+  exportHiddenEmitters: boolean;
+
+  @observable
   name = {
     value: 'MyProject',
     error: false,
@@ -36,6 +42,16 @@ export class EditorStore {
   @action.bound
   setError(configName: string, errorStatus: boolean = true) {
     this[configName].error = errorStatus;
+  }
+
+  @action.bound
+  setOpenExportDialog(value: boolean) {
+    this.openExportDialog = value;
+  }
+
+  @action.bound
+  setExportHiddenEmitters(value: boolean) {
+    this.exportHiddenEmitters = value;
   }
 }
 
