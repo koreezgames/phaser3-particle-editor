@@ -11,15 +11,10 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import { EMITTER_STORE, EmitterStoreProp } from '../../stores';
 import { inject, observer } from 'mobx-react';
 
-const actions = [
-  <DeleteIcon key={0} />,
-  <FileCopyIcon key={1} />,
-  <SaveAltIcon key={2} />,
-];
+const actions = [<DeleteIcon key={0} />, <FileCopyIcon key={1} />];
 
 const ITEM_HEIGHT = 48;
 
@@ -51,7 +46,6 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
       changeEmitterConfig,
       removeEmitter,
       copyEmitter,
-      downloadEmitter,
     } = emitterStore!;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
@@ -104,9 +98,6 @@ class EmitterItem extends Component<Props & EmitterStoreProp> {
                         break;
                       case 1:
                         copyEmitter(index);
-                        break;
-                      case 2:
-                        downloadEmitter(index);
                         break;
                       default:
                         break;

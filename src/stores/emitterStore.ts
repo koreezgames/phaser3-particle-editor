@@ -5,7 +5,14 @@ import {
   emitterConfig as emitterInitialConfig,
   EMITTER_NAME_PREFIX,
 } from '../constants';
-import { deepCopy, getNewEmitterID, hasBoth, hasKey, saveZip } from '../utils';
+import {
+  deepCopy,
+  getNewEmitterID,
+  hasBoth,
+  hasKey,
+  saveZip,
+  getEmitterConfig,
+} from '../utils';
 import _isPlainObject from 'lodash/isPlainObject';
 
 export class EmitterStore {
@@ -146,30 +153,40 @@ export class EmitterStore {
   }
 
   @action.bound
-  downloadEmitter(index: number) {
-    const { config, name } = this.emitters[index];
-    const configJSON = JSON.stringify(config);
-    saveZip({
-      jsonConfig: configJSON,
-      zipName: name,
-      jsonFileName: name,
-    });
-  }
-
-  @action.bound
   changeEmitterIndex(index: number) {
     this.emitterIndex = index;
   }
 
   @action.bound
-  downloadAll() {
-    // const configs = this.emitters.map(emitter => emitter.config);
-    // const configsJSON = JSON.stringify(configs);
-    // saveZip({
-    //   jsonConfig: configsJSON,
-    //   zipName: 'particle',
-    //   jsonFileName: 'emitters'
-    // });
+  downloadAll(name: string, exportHidden?: boolean) {
+    const zoneSources: any[] = [];
+    let configs: any = this.emitters.map(emitter =>
+      getEmitterConfig(emitter.config, (source: any, shapeProps: any) => {
+        const sourceCopy = { ...source };
+        sourceCopy.source = `new Phaser.Geom.${source.shapeType}(${[
+          Object.values(shapeProps),
+        ]})`;
+        delete sourceCopy.shapeType;
+        zoneSources.push(sourceCopy.source);
+        return sourceCopy;
+      }),
+    );
+
+    if (exportHidden === false) {
+      configs = configs.filter((config: any) => config.visible);
+    }
+
+    console.log(configs);
+
+    let configsJSON = JSON.stringify(configs);
+    zoneSources.forEach((source: string) => {
+      configsJSON = configsJSON.replace(`"${source}"`, `${source}`);
+    });
+
+    saveZip({
+      emittersJSON: configsJSON,
+      name: name,
+    });
   }
 
   setEmitterIndex(index: number) {

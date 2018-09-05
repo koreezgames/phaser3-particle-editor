@@ -16,7 +16,7 @@ type Props = {
 @observer
 class ColorPicker extends Component<Props & EmitterStoreProp> {
   state = {
-    showPicker: false
+    showPicker: false,
   };
 
   render() {
@@ -31,17 +31,24 @@ class ColorPicker extends Component<Props & EmitterStoreProp> {
         <TextField
           value={valueHex}
           onClick={() => this.setState({ showPicker: true })}
-          InputProps={{style: {color: valueHex}}}
+          InputProps={{ style: { color: valueHex } }}
         />
         {showPicker ? (
           <div style={{ zIndex: 2, position: 'absolute' }}>
             <div
-              style={{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0 }}
-               onClick={() => this.setState({ showPicker: false })}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onClick={() => this.setState({ showPicker: false })}
             />
             <ChromePicker
+              disableAlpha
               color={valueHex}
-              onChange={({ hex }: { hex: string }) => { 
+              onChange={({ hex }: { hex: string }) => {
                 const colorValue = parseInt(hex.substring(1), 16);
                 changeEmitterConfig(configName, colorValue);
               }}

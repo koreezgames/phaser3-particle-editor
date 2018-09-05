@@ -8,7 +8,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '../Select';
-// import TextField from '../TextField';
 import { zoneEdgeShapes } from '../../constants';
 import ComplexTextField from '../ComplexTextField';
 
@@ -18,13 +17,6 @@ interface Props {
   onEnable?: (zoneValue: any) => any;
   onTypeChange?: (zoneValue: any, type: string) => any;
 }
-
-// const edgeZoneComplexProps = {
-//   quantity: 10,
-//   stepRate: 0,
-//   yoyo: false,
-//   seamless: false,
-// };
 
 @inject(EMITTER_STORE)
 @observer
@@ -76,7 +68,7 @@ class Zone extends Component<Props & EmitterStoreProp> {
             let zoneValue = event.target.checked
               ? { ...getZoneShapeProps('Rectangle'), type: types[0] }
               : undefined;
-            zoneValue = onEnable ? onEnable(zoneValue) : zoneValue;
+            zoneValue = zoneValue && onEnable ? onEnable(zoneValue) : zoneValue;
             changeEmitterConfig(configName, zoneValue);
           }}
         />
