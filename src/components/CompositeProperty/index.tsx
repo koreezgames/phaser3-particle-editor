@@ -50,18 +50,22 @@ class CompositeProperty extends Component<Props & EmitterStoreProp> {
           <Grid item xs={6}>
             <TextField configName={`${configName}>${end}`} label={end} />
           </Grid>
+          <Grid item xs={12}>
+            <Select
+              configName={`${configName}>ease`}
+              options={easing}
+              value={value.ease || 'Custom'}
+              onChange={event =>
+                changeSelectDropdown(configName, event.target.value)
+              }
+            />
+          </Grid>
+          {hasKey(value, 'steps') ? (
+            <Grid item xs={12}>
+              <TextField configName={`${configName}>steps`} label="steps" />
+            </Grid>
+          ) : null}
         </Grid>
-        <Select
-          configName={`${configName}>ease`}
-          options={easing}
-          value={value.ease || 'Custom'}
-          onChange={event =>
-            changeSelectDropdown(configName, event.target.value)
-          }
-        />
-        {hasKey(value, 'steps') ? (
-          <TextField configName={`${configName}>steps`} label="steps" />
-        ) : null}
       </Fragment>
     ) : (
       <MultipleInput configName={configName}>
