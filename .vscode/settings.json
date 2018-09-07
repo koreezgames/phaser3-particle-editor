@@ -1,0 +1,10 @@
+{
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "tslint.autoFixOnSave": true,
+  "javascript.format.enable": false
+}
