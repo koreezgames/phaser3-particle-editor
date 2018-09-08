@@ -1,4 +1,4 @@
-# Contributing to phaser3-ninepatch-plugin
+# Contributing to phaser3-particle-editor
 
 ## Setup
 
@@ -8,7 +8,7 @@
 $ git clone https://github.com/koreezgames/phaser3-particle-editor.git
 ```
 
-2 - Install npm dependencies using yarn:
+2 - Install npm dependencies using npm:
 
 ```
 $ npm install
