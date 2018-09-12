@@ -46,11 +46,11 @@ var game = new Phaser.Game(config);
 
 function preload() {
   this.load.atlas('shapes', 'assets/shapes.png', 'assets/shapes.json');
-  this.load.json('particle-effect', 'assets/particle-effect.json');
+  this.load.text('particle-effect', 'assets/particle-effect.json');
 }
 
 function create() {
-  this.add.particles('shapes', this.cache.json.get('particle-effect'));
+  this.add.particles('shapes',  new Function('return ' + this.cache.text.get('particle-effect'))());
 }
 ```
 
