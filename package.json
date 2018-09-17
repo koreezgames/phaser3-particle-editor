@@ -33,7 +33,7 @@
     "@types/jest": "^23.3.2",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.9.4",
-    "gh-pages": "^1.2.0",
+    "gh-pages": "^2.0.0",
     "prettier": "^1.14.2",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "latest"
