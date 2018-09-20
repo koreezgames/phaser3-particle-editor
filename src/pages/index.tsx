@@ -11,6 +11,7 @@ import { EDITOR_STORE } from '../stores';
 import ExportProjectModal from '../components/ExportProjectModal';
 import ImportProjectModal from '../components/ImportProjectModal';
 import SaveProjectModal from '../components/SaveProjectModal';
+import ChangeBackgroundModal from '../components/ChangeBackgroundModal';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,6 +36,7 @@ class Index extends React.Component<
         <ExportProjectModal />
         <ImportProjectModal />
         <SaveProjectModal />
+        <ChangeBackgroundModal />
       </Fragment>
     );
   }

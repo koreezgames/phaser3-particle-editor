@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SaveIcon from '@material-ui/icons/Save';
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import {
   Menu,
   MenuItem,
@@ -35,7 +36,9 @@ class AppBarMenu extends Component<EditorStoreProp> {
       setOpenExportDialog,
       setOpenImportDialog,
       setOpenSaveDialog,
+      setOpenBackgroundDialog,
       setInitialImportProps,
+      background,
     } = editorStore!;
     const { anchorEl } = this.state;
     const menuOpen = Boolean(anchorEl);
@@ -85,6 +88,21 @@ class AppBarMenu extends Component<EditorStoreProp> {
               <SaveAltIcon />
             </ListItemIcon>
             <ListItemText inset primary="Export" />
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => {
+              setOpenBackgroundDialog(true);
+              this.handleMenuClose();
+            }}
+          >
+            <ListItemIcon>
+              <InsertPhotoIcon />
+            </ListItemIcon>
+            <ListItemText
+              inset
+              primary={`${background.data ? 'Change' : 'Set'} Background`}
+            />
           </MenuItem>
         </Menu>
       </Fragment>

@@ -11,6 +11,7 @@ export default class Preload extends Phaser.Scene {
   }
 
   create() {
+    this.scene.start('Background');
     this.scene.start('Canvas');
     this.scene.remove(this);
   }

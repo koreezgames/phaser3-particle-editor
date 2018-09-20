@@ -153,6 +153,7 @@ export class EmitterStore {
   @action.bound
   setEmitters(emitters: any) {
     this.emitters = emitters;
+    this.setEmitterIndex(0);
   }
 
   setEmitterIndex(index: number) {

@@ -1,5 +1,10 @@
 import { action, observable } from 'mobx';
-import { validateForm, getFileExtension, validateZip } from '../utils';
+import {
+  validateForm,
+  getFileExtension,
+  validateZip,
+  getBase64ImageSize,
+} from '../utils';
 import JSZip from 'jszip';
 import { ARCHIVE_EXTENSION, ATLAS_FILE_NAME } from '../constants';
 
@@ -17,7 +22,20 @@ export class EditorStore {
   openImportDialog: boolean = false;
 
   @observable
+  openBackgroundDialog: boolean = false;
+
+  @observable
   exportHiddenEmitters: boolean = false;
+
+  @observable
+  background = {
+    data: null,
+    loading: false,
+    size: {
+      width: 0,
+      height: 0,
+    },
+  };
 
   @observable
   name = {
@@ -51,6 +69,13 @@ export class EditorStore {
 
   @action.bound
   setEditorProps(editorProps: any) {
+    if (editorProps.backgroundData) {
+      this.background.data = editorProps.backgroundData.data;
+      this.background.size.width = editorProps.backgroundData.width;
+      this.background.size.height = editorProps.backgroundData.height;
+    } else {
+      this.resetBackground();
+    }
     this.width.value = editorProps.width;
     this.height.value = editorProps.height;
     this.name.value = editorProps.name;
@@ -102,6 +127,11 @@ export class EditorStore {
   }
 
   @action.bound
+  setOpenBackgroundDialog(value: boolean) {
+    this.openBackgroundDialog = value;
+  }
+
+  @action.bound
   setExportHiddenEmitters(value: boolean) {
     this.exportHiddenEmitters = value;
   }
@@ -113,6 +143,39 @@ export class EditorStore {
     if (file !== null) {
       this.setFileError(getFileExtension(file.name) !== ARCHIVE_EXTENSION);
       this.setFileErrorText(`Invalid file - ${this.file && this.file.name}`);
+    }
+  }
+
+  @action.bound
+  resetBackground() {
+    this.background = {
+      data: null,
+      loading: false,
+      size: {
+        width: 0,
+        height: 0,
+      },
+    };
+  }
+
+  @action.bound
+  setBackground(background: any) {
+    const extension = getFileExtension(background.name);
+    if (extension !== 'png') {
+      this.resetBackground();
+    } else {
+      this.background.loading = true;
+      const reader = new FileReader();
+      reader.readAsDataURL(background);
+      reader.onload = (e: any) => {
+        const base64 = e.target.result;
+        getBase64ImageSize(base64, (width: number, height: number) => {
+          this.background.size.width = width;
+          this.background.size.height = height;
+          this.background.data = base64;
+          this.background.loading = false;
+        });
+      };
     }
   }
 
