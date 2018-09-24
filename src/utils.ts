@@ -133,12 +133,8 @@ const getEmitterIndex = (newEmitters: any, prevEmitters: any) => {
   return index;
 };
 
-const saveProject = async (
-  name: string,
-  emitters: any[],
-  canvasSize: any,
-  backgroundData: any,
-) => {
+const saveProject = async (props: any) => {
+  const { canvasSize, name, emitters, backgroundData } = props;
   const shapeData = await fetch(shapesIMAGE);
   const shapeBuffer = await shapeData.arrayBuffer();
   const editor = { ...canvasSize, name, backgroundData };
@@ -275,7 +271,7 @@ const execute = (jsonString: string) => {
   return new Function(`return ${jsonString}`)();
 };
 
-const getBase64ImageSize = (base64: any, cb: any) => {
+const getImageSize = (base64: any, cb: any) => {
   const image = new Image();
   image.src = base64;
 
@@ -285,7 +281,7 @@ const getBase64ImageSize = (base64: any, cb: any) => {
 };
 
 export {
-  getBase64ImageSize,
+  getImageSize,
   execute,
   getFileExtension,
   validateZip,

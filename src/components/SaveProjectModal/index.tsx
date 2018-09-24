@@ -36,19 +36,19 @@ class SaevProjectModal extends React.Component<
         onClose={() => setOpenSaveDialog(false)}
         onTrueClick={() => {
           setOpenSaveDialog(false);
-          saveProject(
-            name.value,
-            emitters,
-            {
+          saveProject({
+            name: name.value,
+            emitters: emitters,
+            canvasSize: {
               width: width.value,
               height: height.value,
             },
-            {
+            backgroundData: {
               data: background.data,
               width: background.size.width,
               height: background.size.height,
             },
-          );
+          });
         }}
       />
     );

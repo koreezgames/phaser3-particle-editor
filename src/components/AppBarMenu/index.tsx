@@ -6,14 +6,8 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SaveIcon from '@material-ui/icons/Save';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
-import {
-  Menu,
-  MenuItem,
-  Fade,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
+import { Menu, Fade, IconButton } from '@material-ui/core';
+import AppBarMenuItem from '../AppBarMenuItem';
 
 @inject(EDITOR_STORE)
 @observer
@@ -55,55 +49,39 @@ class AppBarMenu extends Component<EditorStoreProp> {
           onClose={this.handleMenuClose}
           TransitionComponent={Fade}
         >
-          <MenuItem
+          <AppBarMenuItem
             onClick={() => {
               setOpenSaveDialog(true);
               this.handleMenuClose();
             }}
-          >
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <ListItemText inset primary="Save" />
-          </MenuItem>
-          <MenuItem
+            icon={<SaveIcon />}
+            text="Save"
+          />
+          <AppBarMenuItem
             onClick={() => {
               setInitialImportProps();
               setOpenImportDialog(true);
               this.handleMenuClose();
             }}
-          >
-            <ListItemIcon>
-              <FolderOpenIcon />
-            </ListItemIcon>
-            <ListItemText inset primary="Open" />
-          </MenuItem>
-          <MenuItem
+            icon={<FolderOpenIcon />}
+            text="Open"
+          />
+          <AppBarMenuItem
             onClick={() => {
               setOpenExportDialog(true);
               this.handleMenuClose();
             }}
-          >
-            <ListItemIcon>
-              <SaveAltIcon />
-            </ListItemIcon>
-            <ListItemText inset primary="Export" />
-          </MenuItem>
-
-          <MenuItem
+            icon={<SaveAltIcon />}
+            text="Export"
+          />
+          <AppBarMenuItem
             onClick={() => {
               setOpenBackgroundDialog(true);
               this.handleMenuClose();
             }}
-          >
-            <ListItemIcon>
-              <InsertPhotoIcon />
-            </ListItemIcon>
-            <ListItemText
-              inset
-              primary={`${background.data ? 'Change' : 'Set'} Background`}
-            />
-          </MenuItem>
+            icon={<InsertPhotoIcon />}
+            text={`${background.data ? 'Change' : 'Set'} Background`}
+          />
         </Menu>
       </Fragment>
     );

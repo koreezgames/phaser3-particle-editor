@@ -3,7 +3,7 @@ import {
   validateForm,
   getFileExtension,
   validateZip,
-  getBase64ImageSize,
+  getImageSize,
 } from '../utils';
 import JSZip from 'jszip';
 import { ARCHIVE_EXTENSION, ATLAS_FILE_NAME } from '../constants';
@@ -164,19 +164,23 @@ export class EditorStore {
     if (extension !== 'png') {
       this.resetBackground();
     } else {
-      this.background.loading = true;
-      const reader = new FileReader();
-      reader.readAsDataURL(background);
-      reader.onload = (e: any) => {
-        const base64 = e.target.result;
-        getBase64ImageSize(base64, (width: number, height: number) => {
-          this.background.size.width = width;
-          this.background.size.height = height;
-          this.background.data = base64;
-          this.background.loading = false;
-        });
-      };
+      this.loadBackground(background);
     }
+  }
+
+  loadBackground(background: any) {
+    this.background.loading = true;
+    const reader = new FileReader();
+    reader.readAsDataURL(background);
+    reader.onload = (e: any) => {
+      const base64 = e.target.result;
+      getImageSize(base64, (width: number, height: number) => {
+        this.background.size.width = width;
+        this.background.size.height = height;
+        this.background.data = base64;
+        this.background.loading = false;
+      });
+    };
   }
 
   setFileError(value: boolean) {
