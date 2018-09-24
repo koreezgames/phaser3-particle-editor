@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SaveIcon from '@material-ui/icons/Save';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import { Menu, Fade, IconButton } from '@material-ui/core';
 import AppBarMenuItem from '../AppBarMenuItem';
@@ -32,6 +33,7 @@ class AppBarMenu extends Component<EditorStoreProp> {
       setOpenSaveDialog,
       setOpenBackgroundDialog,
       setInitialImportProps,
+      resetBackground,
       background,
     } = editorStore!;
     const { anchorEl } = this.state;
@@ -82,6 +84,16 @@ class AppBarMenu extends Component<EditorStoreProp> {
             icon={<InsertPhotoIcon />}
             text={`${background.data ? 'Change' : 'Set'} Background`}
           />
+          {background.data ? (
+            <AppBarMenuItem
+              onClick={() => {
+                resetBackground();
+                this.handleMenuClose();
+              }}
+              icon={<DeleteForeverIcon />}
+              text="Remove Background"
+            />
+          ) : null}
         </Menu>
       </Fragment>
     );
