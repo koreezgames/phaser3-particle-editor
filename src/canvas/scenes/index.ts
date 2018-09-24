@@ -1,3 +1,4 @@
 import CanvasScene from './canvas';
 import PreloadScene from './preload';
-export { CanvasScene, PreloadScene };
+import BackgroundScene from './background';
+export { CanvasScene, PreloadScene, BackgroundScene };

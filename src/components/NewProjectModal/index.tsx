@@ -23,6 +23,7 @@ import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import { Fragment } from 'react';
 import ImportProjectFile, { ImportProjectButton } from '../ImportProjectFile';
 import { EDITOR_STORE, EMITTER_STORE, EmitterStoreProp } from '../../stores';
+import ImportBackground from '../ImportBackground';
 
 enum Project {
   Create,
@@ -87,6 +88,19 @@ class NewProjectModal extends React.Component<
         </Grid>
         <Grid item xs={6}>
           <TextField
+            value={width.value}
+            error={width.error}
+            label="Width"
+            type="number"
+            fullWidth
+            onFocus={() => {
+              setError('width', false);
+            }}
+            onChange={event => changeConfig('width', event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
             value={height.value}
             error={height.error}
             label="Height"
@@ -98,18 +112,8 @@ class NewProjectModal extends React.Component<
             onChange={event => changeConfig('height', event.target.value)}
           />
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            value={width.value}
-            error={width.error}
-            label="Width"
-            type="number"
-            fullWidth
-            onFocus={() => {
-              setError('width', false);
-            }}
-            onChange={event => changeConfig('width', event.target.value)}
-          />
+        <Grid item xs={12}>
+          <ImportBackground />
         </Grid>
       </Fragment>
     );
@@ -140,7 +144,7 @@ class NewProjectModal extends React.Component<
   render() {
     const { value } = this.state;
     const { editorStore, emitterStore } = this.props;
-    const { setStatus, setEditorProps } = editorStore!;
+    const { setStatus, setEditorProps, background } = editorStore!;
     const { setEmitters } = emitterStore!;
     return (
       <Dialog
@@ -178,6 +182,7 @@ class NewProjectModal extends React.Component<
               size="small"
               variant="contained"
               color="primary"
+              disabled={background.loading}
               onClick={() => setStatus(true)}
             >
               Create
