@@ -175,10 +175,14 @@ export class EditorStore {
     reader.onload = (e: any) => {
       const base64 = e.target.result;
       getImageSize(base64, (width: number, height: number) => {
-        this.background.size.width = width;
-        this.background.size.height = height;
-        this.background.data = base64;
-        this.background.loading = false;
+        this.background = {
+          data: base64,
+          loading: false,
+          size: {
+            width,
+            height,
+          },
+        };
       });
     };
   }
