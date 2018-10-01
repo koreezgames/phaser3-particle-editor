@@ -65,9 +65,10 @@ class ImportBackground extends React.Component<
   EditorStoreProp & WithStyles<typeof styles>
 > {
   handleChange = (event: any) => {
-    const { setBackground } = this.props.editorStore!;
+    const { setBackground, setOpenBackgroundDialog } = this.props.editorStore!;
     const background = event.target.files[0];
     if (background) {
+      setOpenBackgroundDialog(false);
       setBackground(background);
     }
   };
