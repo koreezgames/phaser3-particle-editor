@@ -160,8 +160,7 @@ export class EditorStore {
 
   @action.bound
   setBackground(background: any) {
-    const extension = getFileExtension(background.name);
-    if (extension !== 'png') {
+    if (!/\.(jpe?g|png)$/i.test(background.name)) {
       this.resetBackground();
     } else {
       this.loadBackground(background);
@@ -169,6 +168,7 @@ export class EditorStore {
   }
 
   loadBackground(background: any) {
+    console.log('loadBackground');
     this.background.loading = true;
     const reader = new FileReader();
     reader.readAsDataURL(background);
@@ -198,8 +198,9 @@ export class EditorStore {
   onLoadSuccess(zip: any) {
     const result = Object.keys(zip.files).map(fileName => {
       const file = zip.files[fileName];
-      const asyncType =
-        getFileExtension(file.name) === 'png' ? 'uint8array' : 'text';
+      const asyncType = /\.(jpe?g|png)$/i.test(file.name)
+        ? 'uint8array'
+        : 'text';
       return {
         value: null,
         name: fileName,

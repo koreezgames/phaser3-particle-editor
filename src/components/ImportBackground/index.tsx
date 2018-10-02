@@ -92,7 +92,11 @@ class ImportBackground extends React.Component<
                 onChange={this.handleChange}
               />
               <label htmlFor="button-file">
-                <Tooltip disableFocusListener title="*.png" placement="bottom">
+                <Tooltip
+                  disableFocusListener
+                  title="*.png | *.jpeg | *.jpg"
+                  placement="bottom"
+                >
                   <Button
                     variant="contained"
                     color="default"
