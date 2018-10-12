@@ -7,11 +7,21 @@ import {
   Grid,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Select from '../Select';
-import { blendModes, frames } from '../../constants';
+import { inject, observer } from 'mobx-react';
+import { EMITTER_STORE, EmitterStoreProp } from 'src/stores';
+import Switch from '../Switch';
+import TextField from '../TextField';
+import MultipleInput from '../MultipleInput';
+import { selectComponent } from '../Select';
+import { frames } from 'src/constants';
+import _get from 'lodash/get';
 
-class ExpansionPanelFrame extends Component {
+@inject(EMITTER_STORE)
+@observer
+class ExpansionPanelFrame extends Component<EmitterStoreProp> {
   render() {
+    const { emitterStore } = this.props;
+    const { currentEmitterConfig } = emitterStore!;
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -20,10 +30,31 @@ class ExpansionPanelFrame extends Component {
         <ExpansionPanelDetails>
           <Grid container spacing={16}>
             <Grid item xs={6}>
-              <Select configName="blendMode" options={blendModes} />
+              <Switch
+                configName="frame>cycle"
+                label="Cycle"
+                disabled={currentEmitterConfig.frame.frames.length < 2}
+              />
             </Grid>
             <Grid item xs={6}>
-              <Select configName="frame" options={frames} />
+              <TextField
+                configName="frame>quantity"
+                type="number"
+                label="Quantity"
+                disabled={!currentEmitterConfig.frame.cycle}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MultipleInput configName="frame>frames">
+                {(params: any) => {
+                  const { configName } = params;
+                  return selectComponent({
+                    ...params,
+                    options: frames,
+                    value: _get(currentEmitterConfig, configName.split('>')),
+                  });
+                }}
+              </MultipleInput>
             </Grid>
           </Grid>
         </ExpansionPanelDetails>

@@ -45,4 +45,10 @@ class Select extends Component<Props & EmitterStoreProp> {
   }
 }
 
+const selectComponent = (params: any) => {
+  return <Select {...params} />;
+};
+
+export { selectComponent };
+
 export default Select;

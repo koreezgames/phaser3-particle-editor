@@ -10,7 +10,7 @@ const emitterConfig = {
   on: true,
   particleBringToTop: true,
   radial: true,
-  frame: frames[0].value,
+  frame: { frames: [frames[0].value], cycle: false, quantity: 1 },
   frequency: 0,
   gravityX: 0,
   gravityY: 0,
