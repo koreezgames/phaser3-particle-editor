@@ -8,6 +8,7 @@ import { Grid, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { emitterConfig } from '../../constants';
+import _get from 'lodash/get';
 
 type Props = {
   configName: string;
@@ -19,7 +20,7 @@ class MultipleInput extends Component<Props & EmitterStoreProp> {
   getInputComponent = (length: number) => {
     const { configName, emitterStore, children } = this.props;
     const { currentEmitterConfig, changeEmitterConfig } = emitterStore!;
-    const values: any[] = currentEmitterConfig[configName];
+    const values: any[] = _get(currentEmitterConfig, configName.split('>'));
 
     return _range(length).map((value, i) => {
       const last = value === length - 1;
@@ -31,7 +32,7 @@ class MultipleInput extends Component<Props & EmitterStoreProp> {
             onClick={() =>
               changeEmitterConfig(configName, [
                 ...values,
-                emitterConfig[configName][0],
+                _get(emitterConfig, configName.split('>'))[0],
               ])
             }
           >
@@ -68,7 +69,7 @@ class MultipleInput extends Component<Props & EmitterStoreProp> {
   render() {
     const { configName, emitterStore } = this.props;
     const { currentEmitterConfig } = emitterStore!;
-    const values = currentEmitterConfig[configName];
+    const values = _get(currentEmitterConfig, configName.split('>'));
     const length = values.length;
     return this.getInputComponent(length);
   }
