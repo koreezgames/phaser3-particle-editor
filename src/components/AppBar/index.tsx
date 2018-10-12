@@ -29,7 +29,7 @@ class AppBar extends Component<EditorStoreProp & WithStyles<typeof styles>> {
       <MaterialAppBar position="sticky">
         <Toolbar variant="dense">
           <AppBarMenu />
-          <Typography variant="title" color="inherit" className={classes.flex}>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
             {name.value}
           </Typography>
           <Typography color="inherit" className={classes.version}>

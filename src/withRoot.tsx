@@ -6,6 +6,9 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 function withRoot(Component: React.ComponentType) {
