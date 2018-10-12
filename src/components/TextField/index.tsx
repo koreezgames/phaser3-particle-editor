@@ -10,6 +10,7 @@ type Props = {
   configName: string;
   hideLabel?: boolean;
   label?: string;
+  disabled?: boolean;
 } & Partial<DefaultProps>;
 
 type DefaultProps = Readonly<typeof defaultProps>;
@@ -25,7 +26,14 @@ class TextField extends Component<Props & EmitterStoreProp> {
   static defaultProps = defaultProps;
 
   render() {
-    const { configName, label, type, hideLabel, emitterStore } = this.props;
+    const {
+      configName,
+      label,
+      type,
+      hideLabel,
+      emitterStore,
+      disabled,
+    } = this.props;
     const { currentEmitterConfig, changeEmitterConfig } = emitterStore!;
     const value = _get(currentEmitterConfig, configName.split('>'));
     const textFieldLabel = !hideLabel ? label || _startCase(configName) : null;
@@ -38,6 +46,7 @@ class TextField extends Component<Props & EmitterStoreProp> {
         fullWidth
         label={textFieldLabel}
         type={type}
+        disabled={disabled}
         onChange={event => {
           const newValue = event.target.value;
           const configValue =
