@@ -1,6 +1,6 @@
 {
   "name": "phaser3-particle-editor",
-  "version": "1.0.0-beta2",
+  "version": "1.0.0-beta3",
   "private": true,
   "main": "src/index.tsx",
   "homepage": "http://koreezgames.github.io/phaser3-particle-editor",
