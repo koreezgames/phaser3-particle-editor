@@ -9,6 +9,7 @@ import ExpansionPanelFrame from './expansionPanelFrame';
 import ExpansionPanelColorPicker from './expansionPanelColorPicker';
 import ExpansionPanelTransform from './expansionPanelTransform';
 import ExpansionPanelBounds from './expansionPanelBounds';
+import ExpansionPanelBlendMode from './expansionPanelBlendMode';
 
 const styles = {
   root: {
@@ -31,6 +32,8 @@ class EmitterConfig extends Component<WithStyles<typeof styles>> {
         />
 
         <ExpansionPanelFrame />
+
+        <ExpansionPanelBlendMode />
 
         <ExpansionPanelColorPicker />
 
