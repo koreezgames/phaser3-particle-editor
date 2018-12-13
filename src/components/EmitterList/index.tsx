@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import {
   List,
   Divider,
-  Button,
   withStyles,
   WithStyles,
   Theme,
   createStyles,
+  Fab,
 } from '@material-ui/core';
 import EmitterItem from '../EmitterItem';
 import { EmitterStoreProp, EMITTER_STORE } from '../../stores';
@@ -54,14 +54,13 @@ class EmitterList extends Component<
             })}
           </List>
         </div>
-        <Button
-          variant="fab"
+        <Fab
           color="primary"
           className={classes.fab}
           onClick={() => addEmitter()}
         >
           <AddIcon />
-        </Button>
+        </Fab>
       </div>
     );
   }

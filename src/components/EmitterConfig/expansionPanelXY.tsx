@@ -31,7 +31,7 @@ class ExpansionPanelXY extends Component<Props> {
             <Grid item xs={6}>
               {composite ? (
                 <Fragment>
-                  <FormLabel component="legend">X</FormLabel>
+                  <FormLabel component="label">X</FormLabel>
                   <CompositeProperty configName={configNameX} />
                 </Fragment>
               ) : (
@@ -41,7 +41,7 @@ class ExpansionPanelXY extends Component<Props> {
             <Grid item xs={6}>
               {composite ? (
                 <Fragment>
-                  <FormLabel component="legend">Y</FormLabel>
+                  <FormLabel component="label">Y</FormLabel>
                   <CompositeProperty configName={configNameY} />
                 </Fragment>
               ) : (

@@ -20,15 +20,15 @@ class ExpansionPanelTransform extends Component {
         <ExpansionPanelDetails>
           <Grid container spacing={40}>
             <Grid item xs={6}>
-              <FormLabel component="legend">Scale</FormLabel>
+              <FormLabel component="label">Scale</FormLabel>
               <CompositeProperty configName="scale" />
             </Grid>
             <Grid item xs={6}>
-              <FormLabel component="legend">Rotate</FormLabel>
+              <FormLabel component="label">Rotate</FormLabel>
               <CompositeProperty configName="rotate" />
             </Grid>
             <Grid item xs={12}>
-              <FormLabel component="legend">Alpha</FormLabel>
+              <FormLabel component="label">Alpha</FormLabel>
               <CompositeProperty configName="alpha" />
             </Grid>
           </Grid>
