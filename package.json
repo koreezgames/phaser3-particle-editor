@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/lodash": "^4.14.119",
-    "@types/node": "^10.12.14",
+    "@types/node": "^12.12.10",
     "gh-pages": "^2.0.1",
     "prettier": "^1.15.3",
     "tslint-config-prettier": "^1.17.0",
