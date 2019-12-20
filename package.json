@@ -9,7 +9,7 @@
     "@material-ui/icons": "^3.0.1",
     "@types/file-saver": "^2.0.0",
     "@types/jszip": "^3.1.4",
-    "@types/react": "^16.7.17",
+    "@types/react": "^16.9.17",
     "@types/react-dom": "^16.0.11",
     "file-saver": "^2.0.0",
     "github-buttons": "git+https://github.com/ntkme/github-buttons.git",
